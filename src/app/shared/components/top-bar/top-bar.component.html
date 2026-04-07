@@ -1,0 +1,23 @@
+<header class="top-bar glass">
+  <div class="top-bar__inner container">
+    <div class="top-bar__left">
+      @if (showBack) {
+        <button class="top-bar__icon-btn" routerLink="..">
+          <span class="material-symbols-outlined">arrow_back</span>
+        </button>
+      }
+    </div>
+    <a routerLink="/feed" class="top-bar__logo font-headline">Campusly</a>
+    <div class="top-bar__right">
+      @if (showNotifications) {
+        <button class="top-bar__icon-btn top-bar__notif-btn" routerLink="/admin">
+          <span class="material-symbols-outlined">notifications</span>
+          <span class="top-bar__notif-dot"></span>
+        </button>
+      }
+      <button class="top-bar__icon-btn" (click)="onLogout()" aria-label="Logout">
+        <span class="material-symbols-outlined">logout</span>
+      </button>
+    </div>
+  </div>
+</header>

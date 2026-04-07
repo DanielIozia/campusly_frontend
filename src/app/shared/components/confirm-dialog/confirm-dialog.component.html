@@ -1,0 +1,18 @@
+<h2 mat-dialog-title>{{ data.title }}</h2>
+
+<mat-dialog-content>
+  <p>{{ data.message }}</p>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button class="dialog-btn dialog-btn--cancel" (click)="onCancel()">
+    {{ data.cancelText || 'Annulla' }}
+  </button>
+  <button
+    class="dialog-btn dialog-btn--confirm"
+    [class.dialog-btn--destructive]="data.isDestructive"
+    (click)="onConfirm()"
+  >
+    {{ data.confirmText || 'Continua' }}
+  </button>
+</mat-dialog-actions>

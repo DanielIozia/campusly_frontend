@@ -1,0 +1,72 @@
+<main class="auth-page">
+    <div class="auth-page__aurora"></div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-5">
+                <div class="auth-wrapper">
+
+                    <header class="auth-login__header">
+                        <div class="auth-login__brand">
+                            <div class="auth-login__logo-icon">
+                                <span class="material-symbols-outlined"
+                                    style="font-variation-settings: 'FILL' 1; font-size: 32px;">group</span>
+                            </div>
+                            <div>
+                                <h1 class="auth-login__title font-headline">Campusly</h1>
+                                <p class="auth-login__subtitle">Nuove persone, nuove storie</p>
+                            </div>
+                        </div>
+                        <h2 class="auth-login__heading font-headline">
+                            La tua gente,<br>nella tua università.
+                        </h2>
+                    </header>
+
+                    <div class="auth-login__card card">
+                        <div class="auth-login__socials">
+                            <button class="btn-surface auth-login__social-btn" (click)="loginWithGoogle()">
+                                <i class="bi bi-google"></i>
+                                <span>Continue con Google</span>
+                            </button>
+                        </div>
+
+                        <div class="auth-login__divider">
+                            <span class="auth-login__divider-line"></span>
+                            <span class="auth-login__divider-text label-md">o email</span>
+                            <span class="auth-login__divider-line"></span>
+                        </div>
+
+                        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-login__form">
+                            <div class="auth-login__field">
+                                <label class="auth-login__label">Email</label>
+                                <input type="email" formControlName="email" class="input-field input-rounded"
+                                    placeholder="student&#64;polimi.it">
+                                <app-form-error [control]="loginForm.get('email')"></app-form-error>
+                            </div>
+                            <div class="auth-login__field">
+                                <label class="auth-login__label">Password</label>
+                                <input type="password" formControlName="password" class="input-field input-rounded"
+                                    placeholder="••••••••">
+                                <app-form-error [control]="loginForm.get('password')"></app-form-error>
+                            </div>
+                            <a routerLink="/auth/forgot-password" class="auth-login__forgot-link">Non ricordi la password?</a>
+
+                            @if (errorMessage) {
+                                <div class="auth-login__error">{{ errorMessage }}</div>
+                            }
+
+                            <button type="submit" class="btn-primary auth-login__submit" [disabled]="loading">
+                                {{ loading ? 'Accesso in corso...' : 'Sign In' }}
+                            </button>
+                        </form>
+
+                        <p class="auth-login__switch">
+                            Non hai un account? <a routerLink="/auth/register"
+                                class="text-primary auth-login__switch-link">Registrati</a>
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

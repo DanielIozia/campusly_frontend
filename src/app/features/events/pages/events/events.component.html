@@ -1,0 +1,129 @@
+<div class="events-page">
+  @if (!selectedEvent) {
+    <!-- Event List View -->
+    <div class="events-header">
+      <h2 class="font-headline events-header__title">Events</h2>
+      <p class="events-header__subtitle">Spontaneous campus gatherings</p>
+    </div>
+
+    <div class="events-list">
+      @for (event of events; track event.id) {
+        <div class="event-card" (click)="selectEvent(event)">
+          <div class="event-card__image-wrap">
+            <div class="event-card__image-placeholder">
+              <span class="material-symbols-outlined">image</span>
+            </div>
+            <div class="event-card__tag">
+              <span class="event-card__tag-emoji">{{ event.emoji }}</span>
+              <span class="event-card__tag-label" [class.event-card__tag-label--secondary]="!event.isErasmus">{{ event.category }}</span>
+            </div>
+          </div>
+          <div class="event-card__body">
+            <div class="event-card__top">
+              <h3 class="font-headline event-card__title">{{ event.title }}</h3>
+              @if (event.isErasmus) {
+                <span class="erasmus-badge">
+                  <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1; font-size: 14px;">public</span>
+                  Erasmus
+                </span>
+              }
+            </div>
+            <div class="event-card__meta">
+              <div class="event-card__meta-item">
+                <span class="material-symbols-outlined">schedule</span>
+                {{ event.date }}
+              </div>
+              <div class="event-card__meta-item">
+                <span class="material-symbols-outlined">location_on</span>
+                {{ event.location }}
+              </div>
+            </div>
+            <div class="event-card__attendees">
+              <div class="event-card__avatars">
+                <div class="event-card__avatar-circle"><span class="material-symbols-outlined">person</span></div>
+                <div class="event-card__avatar-circle"><span class="material-symbols-outlined">person</span></div>
+                <div class="event-card__avatar-circle"><span class="material-symbols-outlined">person</span></div>
+                <div class="event-card__avatar-count">+{{ event.attendees }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  } @else if (eventDetail) {
+    <!-- Event Detail View -->
+    <div class="event-detail">
+      <div class="event-detail__hero">
+        <div class="event-detail__hero-placeholder">
+          <span class="material-symbols-outlined">image</span>
+        </div>
+        <button class="event-detail__back" (click)="goBack()">
+          <span class="material-symbols-outlined">arrow_back</span>
+        </button>
+      </div>
+
+      <div class="event-detail__content">
+        <div class="event-detail__header">
+          @if (selectedEvent.isErasmus) {
+            <span class="erasmus-badge erasmus-badge--lg">Global Campus</span>
+          }
+          <h2 class="font-headline event-detail__title">{{ selectedEvent.title }}</h2>
+          <div class="event-detail__attendee-row">
+            <div class="event-card__avatars">
+              <div class="event-card__avatar-circle"><span class="material-symbols-outlined">person</span></div>
+              <div class="event-card__avatar-circle"><span class="material-symbols-outlined">person</span></div>
+            </div>
+            <span class="event-detail__attendee-text">+{{ eventDetail.totalAttendees }} others are going</span>
+          </div>
+        </div>
+
+        <div class="event-detail__info-grid">
+          <div class="event-detail__info-card">
+            <div class="event-detail__info-icon">
+              <span class="material-symbols-outlined">calendar_today</span>
+            </div>
+            <div>
+              <p class="event-detail__info-label">Date</p>
+              <p class="event-detail__info-value">{{ eventDetail.fullDate }}</p>
+            </div>
+          </div>
+          <div class="event-detail__info-card">
+            <div class="event-detail__info-icon">
+              <span class="material-symbols-outlined">alarm</span>
+            </div>
+            <div>
+              <p class="event-detail__info-label">Time</p>
+              <p class="event-detail__info-value">{{ eventDetail.time }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="event-detail__about">
+          <h4 class="font-headline event-detail__section-title">About the Event</h4>
+          <p class="event-detail__description">{{ eventDetail.description }}</p>
+        </div>
+
+        <div class="event-detail__location">
+          <div class="event-detail__location-top">
+            <h4 class="font-headline event-detail__section-title">Location</h4>
+            <span class="event-detail__map-link">Open in Maps</span>
+          </div>
+          <div class="event-detail__map-placeholder">
+            <div class="event-detail__map-pin">
+              <span class="material-symbols-outlined">location_on</span>
+            </div>
+          </div>
+          <div class="event-detail__address">
+            <span class="material-symbols-outlined">place</span>
+            <div>
+              <p class="event-detail__address-name">{{ eventDetail.locationName }}</p>
+              <p class="event-detail__address-detail">{{ eventDetail.locationDetail }}</p>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn-primary event-detail__rsvp">RSVP Now</button>
+      </div>
+    </div>
+  }
+</div>

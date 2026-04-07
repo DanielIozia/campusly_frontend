@@ -1,0 +1,71 @@
+@use 'custom' as *;
+
+.top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  height: 64px;
+
+  &__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    padding: 0 $space-lg;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  &__left,
+  &__right {
+    display: flex;
+    align-items: center;
+    gap: $space-sm;
+    min-width: 48px;
+  }
+
+  &__logo {
+    font-weight: 900;
+    font-style: italic;
+    font-size: 1.5rem;
+    letter-spacing: -0.04em;
+    color: var(--primary);
+    text-decoration: none;
+  }
+
+  &__icon-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: $radius-full;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary);
+    transition: background-color 0.15s ease;
+
+    &:hover {
+      background-color: var(--surface-container-high);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+
+  &__notif-btn {
+    position: relative;
+  }
+
+  &__notif-dot {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--secondary);
+    border: 2px solid var(--surface-container-lowest);
+  }
+}

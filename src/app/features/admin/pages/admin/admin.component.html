@@ -1,0 +1,116 @@
+<div class="admin-page">
+  <!-- Header -->
+  <div class="admin-page__header">
+    <span class="admin-page__label label-md">Staff Overview</span>
+    <h1 class="font-headline admin-page__title">Admin Dashboard</h1>
+  </div>
+
+  <!-- Stats Bento Grid -->
+  @if (stats) {
+  <div class="admin-stats">
+    <div class="admin-stats__card admin-stats__card--reports">
+      <div class="admin-stats__card-content">
+        <p class="admin-stats__card-label">Segnalazioni</p>
+        <h2 class="font-headline admin-stats__card-value admin-stats__card-value--secondary">{{ stats.reports }}</h2>
+        <p class="admin-stats__card-trend">
+          <span class="material-symbols-outlined" style="font-size: 16px;">trending_up</span>
+          {{ stats.reportsTrend }}
+        </p>
+      </div>
+      <div class="admin-stats__bg-icon">
+        <span class="material-symbols-outlined">warning</span>
+      </div>
+    </div>
+
+    <div class="admin-stats__card">
+      <p class="admin-stats__card-label">Spotted oggi</p>
+      <h2 class="font-headline admin-stats__card-value admin-stats__card-value--primary">{{ stats.spottedToday }}</h2>
+      <div class="admin-stats__progress">
+        <div class="admin-stats__progress-bar" [style.width.%]="stats.spottedProgress"></div>
+      </div>
+    </div>
+
+    <div class="admin-stats__card admin-stats__card--primary">
+      <p class="admin-stats__card-label admin-stats__card-label--light">Utenti attivi</p>
+      <h2 class="font-headline admin-stats__card-value">{{ stats.activeUsers }}</h2>
+      <p class="admin-stats__card-peak">
+        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1; font-size: 16px;">bolt</span>
+        Peak hours now
+      </p>
+    </div>
+  </div>
+  }
+  <div class="admin-content">
+    <!-- Reports -->
+    <div class="admin-reports">
+      <div class="admin-reports__header">
+        <h3 class="font-headline admin-reports__title">Recent Reports</h3>
+        <button class="admin-reports__view-all">View all</button>
+      </div>
+
+      @for (report of reports; track report.id) {
+        <div class="report-card">
+          <div class="report-card__header">
+            <div class="report-card__user">
+              <div class="report-card__avatar">
+                <span class="material-symbols-outlined">person</span>
+              </div>
+              <div>
+                <h4 class="report-card__name">{{ report.user }}</h4>
+                <p class="report-card__reason">Reported for: <span class="report-card__reason-type">{{ report.reason }}</span></p>
+              </div>
+            </div>
+            <span class="report-card__time">{{ report.time }}</span>
+          </div>
+
+          <div class="report-card__content">
+            "{{ report.content }}"
+          </div>
+
+          <div class="report-card__actions">
+            <button class="report-card__btn report-card__btn--remove" (click)="removeReport(report.id)">
+              <span class="material-symbols-outlined">delete_forever</span> Remove
+            </button>
+            <button class="report-card__btn report-card__btn--approve" (click)="approveReport(report.id)">
+              <span class="material-symbols-outlined">check_circle</span> Approve
+            </button>
+            <button class="report-card__btn report-card__btn--ban" (click)="banUser(report.id)">
+              <span class="material-symbols-outlined">block</span> Ban
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Activity -->
+    <div class="admin-activity">
+      <h3 class="font-headline admin-activity__title">Activity</h3>
+
+      <div class="admin-activity__list">
+        @for (activity of activities; track activity.id) {
+          <div class="activity-item">
+            <div class="activity-item__icon" [class]="'activity-item__icon--' + activity.iconBg">
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">{{ activity.icon }}</span>
+            </div>
+            <div class="activity-item__content">
+              <p class="activity-item__text" [innerHTML]="activity.text"></p>
+              <span class="activity-item__time">{{ activity.time }}</span>
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- Erasmus CTA -->
+      <div class="admin-erasmus-cta">
+        <div class="admin-erasmus-cta__content">
+          <div class="admin-erasmus-cta__icon">
+            <span class="material-symbols-outlined">public</span>
+          </div>
+          <h4 class="font-headline admin-erasmus-cta__title">Join the Erasmus Global Network</h4>
+          <p class="admin-erasmus-cta__desc">Connect with students from 50+ countries currently on campus.</p>
+          <button class="admin-erasmus-cta__btn">Join now</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

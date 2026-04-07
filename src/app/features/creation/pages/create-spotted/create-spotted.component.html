@@ -1,0 +1,75 @@
+<div class="create-page">
+  <div class="create-page__header">
+    <span class="label-md text-primary" style="opacity: 0.6;">Digital Curator</span>
+    <h2 class="display-sm">Nuovo Spotted</h2>
+  </div>
+
+  <!-- Creation Canvas -->
+  <div class="create-canvas card-surface">
+    <form [formGroup]="form">
+      <div class="create-canvas__textarea-wrap">
+        <textarea formControlName="content"
+                  class="create-canvas__textarea"
+                  placeholder="Chi hai visto oggi in biblioteca?"
+                  rows="6"></textarea>
+        <div class="create-canvas__counter">
+          <span [class.create-canvas__counter--limit]="charCount > maxChars">{{ charCount }}</span> / {{ maxChars }}
+        </div>
+      </div>
+    </form>
+
+    <!-- Category Chips -->
+    <div class="create-canvas__section">
+      <label class="create-canvas__label label-md">CATEGORIA</label>
+      <div class="create-canvas__chips">
+        @for (cat of categories; track cat.label; let i = $index) {
+          <button class="chip"
+                  [class.chip-active]="cat.active"
+                  [class.chip-inactive]="!cat.active"
+                  (click)="selectCategory(i)">
+            @if (cat.icon) {
+              <span class="material-symbols-outlined" style="font-size: 18px;">{{ cat.icon }}</span>
+            }
+            {{ cat.label }}
+          </button>
+        }
+      </div>
+    </div>
+
+    <!-- Anonymous Toggle -->
+    <div class="create-canvas__toggle">
+      <div class="create-canvas__toggle-info">
+        <div class="create-canvas__toggle-icon">
+          <span class="material-symbols-outlined">visibility_off</span>
+        </div>
+        <div>
+          <p class="create-canvas__toggle-title">Pubblica come Anonimo</p>
+          <p class="create-canvas__toggle-desc">L'identità 'Spotted' verrà nascosta</p>
+        </div>
+      </div>
+      <button class="create-canvas__toggle-switch" [class.create-canvas__toggle-switch--on]="isAnonymous" (click)="toggleAnonymous()">
+        <div class="create-canvas__toggle-knob"></div>
+      </button>
+    </div>
+
+    <!-- Preview -->
+    <div class="create-canvas__section">
+      <label class="create-canvas__label label-md">PREVIEW</label>
+      <div class="create-canvas__preview">
+        <div class="create-canvas__preview-header">
+          <div class="create-canvas__preview-avatar">
+            <span class="material-symbols-outlined" style="font-size: 16px;">visibility_off</span>
+          </div>
+          <span class="create-canvas__preview-meta">Post Anonimo • Ora</span>
+        </div>
+        <p class="create-canvas__preview-text">
+          {{ form.get('content')?.value || '"Il tuo spotted apparirà qui..."' }}
+        </p>
+      </div>
+    </div>
+
+    <button class="btn-primary create-canvas__publish" (click)="publish()">
+      Pubblica Spotted
+    </button>
+  </div>
+</div>

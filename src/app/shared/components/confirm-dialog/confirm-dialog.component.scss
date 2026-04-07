@@ -1,0 +1,68 @@
+@use 'custom' as *;
+
+:host {
+  display: block;
+}
+
+::ng-deep .cdk-overlay-pane .mat-mdc-dialog-container {
+  --mdc-dialog-container-color: var(--surface-container-lowest);
+  --mdc-dialog-container-shape: #{$radius-lg};
+}
+
+h2[mat-dialog-title] {
+  font-family: $font-headline;
+  font-weight: 700;
+  color: var(--on-surface);
+  margin-bottom: $space-xs;
+}
+
+mat-dialog-content p {
+  font-family: $font-body;
+  color: var(--on-surface-variant);
+  line-height: 1.5;
+}
+
+mat-dialog-actions {
+  gap: $space-sm;
+  padding-top: $space-md;
+}
+
+.dialog-btn {
+  font-family: $font-label;
+  font-weight: 600;
+  font-size: 0.875rem;
+  border: none;
+  border-radius: $radius-full;
+  padding: $space-sm $space-lg;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &--cancel {
+    background-color: var(--surface-container-low);
+    color: var(--on-surface);
+
+    &:hover {
+      background-color: var(--surface-container-high);
+    }
+  }
+
+  &--confirm {
+    background: var(--primary-gradient);
+    color: var(--on-primary);
+    box-shadow: 0 4px 16px rgba(88, 67, 208, 0.25);
+
+    &:hover {
+      transform: scale(1.03);
+    }
+  }
+
+  &--destructive {
+    background: var(--secondary);
+    color: var(--on-secondary);
+    box-shadow: 0 4px 16px rgba(175, 37, 37, 0.25);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}

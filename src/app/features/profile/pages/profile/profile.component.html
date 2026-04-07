@@ -1,0 +1,102 @@
+<div class="profile-page">
+  @if (user) {
+  <!-- Profile Header -->
+  <section class="profile-header">
+    <div class="profile-header__avatar-wrap">
+      <div class="profile-header__avatar-ring">
+        <div class="profile-header__avatar-placeholder">
+          <span class="material-symbols-outlined">person</span>
+        </div>
+      </div>
+      @if (user.online) {
+        <div class="profile-header__online-dot"></div>
+      }
+    </div>
+
+    <div class="profile-header__info">
+      <div class="profile-header__name-row">
+        <h2 class="font-headline profile-header__name">{{ user.name }}</h2>
+        @if (user.isErasmus) {
+          <div class="profile-header__erasmus-badge">
+            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1; font-size: 18px;">public</span>
+            <span>Erasmus</span>
+          </div>
+        }
+      </div>
+      <p class="profile-header__bio">{{ user.bio }}</p>
+      <div class="profile-header__stats">
+        <div class="profile-header__stat">
+          <span class="profile-header__stat-value">{{ user.spotted }}</span>
+          <span class="profile-header__stat-label">Spotted</span>
+        </div>
+        <div class="profile-header__stat">
+          <span class="profile-header__stat-value">{{ user.likes }}</span>
+          <span class="profile-header__stat-label">Likes</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- University Toggle -->
+  <section class="profile-toggle">
+    <div class="profile-toggle__inner">
+      <button
+        class="profile-toggle__btn"
+        [class.profile-toggle__btn--active]="activeTab === 'host'"
+        (click)="switchTab('host')">
+        <span class="material-symbols-outlined" style="font-size: 18px;">domain</span>
+        Host University
+      </button>
+      <button
+        class="profile-toggle__btn"
+        [class.profile-toggle__btn--active]="activeTab === 'home'"
+        (click)="switchTab('home')">
+        <span class="material-symbols-outlined" style="font-size: 18px;">home_work</span>
+        Home University
+      </button>
+    </div>
+  </section>
+
+  <!-- Bento Grid -->
+  <section class="profile-grid">
+    @for (post of posts; track post.id) {
+      <div class="profile-grid__item"
+           [class.profile-grid__item--large]="post.span === 'large'"
+           [class.profile-grid__item--anon]="post.type === 'anonymous'"
+           [class.profile-grid__item--text]="post.type === 'text'">
+
+        @if (post.type === 'image') {
+          <div class="profile-grid__img-placeholder">
+            <span class="material-symbols-outlined">image</span>
+          </div>
+          <div class="profile-grid__overlay">
+            <p class="profile-grid__caption">{{ post.caption }}</p>
+            <div class="profile-grid__overlay-meta">
+              <span class="material-symbols-outlined" style="font-size: 16px;">favorite</span>
+              <span>{{ post.likes }}</span>
+            </div>
+          </div>
+        }
+
+        @if (post.type === 'anonymous') {
+          <div class="profile-grid__anon-bg"></div>
+          <span class="material-symbols-outlined profile-grid__anon-icon" style="font-variation-settings: 'FILL' 1;">visibility_off</span>
+          <p class="font-headline profile-grid__anon-text">{{ post.text }}</p>
+          <div class="profile-grid__anon-badge">ANONYMOUS SPOT</div>
+        }
+
+        @if (post.type === 'text') {
+          <div class="profile-grid__text-content">
+            <div class="profile-grid__text-accent"></div>
+            <p class="profile-grid__text-body">{{ post.text }}</p>
+          </div>
+          <div class="profile-grid__text-footer">
+            <span class="profile-grid__text-time">{{ post.time }}</span>
+            <span class="material-symbols-outlined">chat_bubble</span>
+          </div>
+        }
+      </div>
+    }
+  </section>
+  }
+</div>

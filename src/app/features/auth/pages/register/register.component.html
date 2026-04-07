@@ -1,0 +1,130 @@
+<main class="auth-page">
+    <div class="auth-page__aurora"></div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-5">
+                <div class="auth-wrapper">
+
+                    <!-- HEADER -->
+                    <header class="auth-register__header">
+                        <div class="auth-register__brand">
+                            <div class="auth-register__logo-icon">
+                                <span class="material-symbols-outlined"
+                                    style="font-variation-settings: 'FILL' 1; font-size: 32px;">group</span>
+                            </div>
+                            <div>
+                                <h1 class="auth-register__title font-headline">Campusly</h1>
+                                <p class="auth-register__subtitle">Nuove persone, nuove storie</p>
+                            </div>
+                        </div>
+                        <h2 class="auth-register__heading font-headline">
+                            Crea un account
+                        </h2>
+                        <p class="auth-register__desc">
+                            Sopravvivere alla sessione è meglio se lo si fa insieme.
+                        </p>
+                    </header>
+
+                    <!-- REGISTER FORM -->
+                    <div class="auth-register__card card">
+                        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="auth-register__form">
+
+                            <!-- [INPUT] firstname -->
+                            <div class="auth-register__row">
+                                <div class="auth-register__field">
+                                    <label class="auth-register__label">Nome</label>
+                                    <input type="text" formControlName="firstName" class="input-field input-rounded"
+                                        placeholder="Mario">
+                                    <app-form-error [control]="registerForm.get('firstName')"></app-form-error>
+                                </div>
+
+                                <!-- [INPUT] lastname -->
+                                <div class="auth-register__field">
+                                    <label class="auth-register__label">Cognome</label>
+                                    <input type="text" formControlName="lastName" class="input-field input-rounded"
+                                        placeholder="Rossi">
+                                    <app-form-error [control]="registerForm.get('lastName')"></app-form-error>
+                                </div>
+                            </div>
+
+                            <!-- [INPUT] date of birth -->
+                            <div class="auth-register__field">
+                                <label class="auth-register__label">Data di nascita</label>
+                                <div class="auth-register__dob-row">
+                                    <select formControlName="birthDay"
+                                        class="input-field input-rounded auth-register__dob-select">
+                                        <option value="" disabled>GG</option>
+                                        @for (day of days; track day) {
+                                        <option [value]="day">{{ day }}</option>
+                                        }
+                                    </select>
+                                    <select formControlName="birthMonth"
+                                        class="input-field input-rounded auth-register__dob-select">
+                                        <option value="" disabled>Mese</option>
+                                        @for (month of months; track month.value) {
+                                        <option [value]="month.value">{{ month.label }}</option>
+                                        }
+                                    </select>
+                                    <select formControlName="birthYear"
+                                        class="input-field input-rounded auth-register__dob-select">
+                                        <option value="" disabled>AAAA</option>
+                                        @for (year of years; track year) {
+                                        <option [value]="year">{{ year }}</option>
+                                        }
+                                    </select>
+                                </div>
+                                <app-form-error [control]="registerForm.get('birthYear')"></app-form-error>
+                            </div>
+
+                            <!-- [INPUT] email -->
+                            <div class="auth-register__field">
+                                <label class="auth-register__label">Email</label>
+                                <input type="email" formControlName="email" class="input-field input-rounded"
+                                    placeholder="student&#64;polimi.it">
+                                <app-form-error [control]="registerForm.get('email')"></app-form-error>
+                            </div>
+
+                            <!-- [INPUT] password -->
+                            <div class="auth-register__field">
+                                <label class="auth-register__label">Password</label>
+                                <input type="password" formControlName="password" class="input-field input-rounded"
+                                    placeholder="••••••••">
+                                <app-form-error [control]="registerForm.get('password')"></app-form-error>
+                            </div>
+
+                            <!-- [INPUT] phone (opzional) -->
+                            <div class="auth-register__field">
+                                <label class="auth-register__label">Telefono <span
+                                        class="auth-register__optional">(opzionale)</span></label>
+                                <input type="tel" formControlName="phone" class="input-field input-rounded"
+                                    placeholder="+39 333 1234567">
+                            </div>
+
+
+                            <p class="auth-register__terms">
+                                Proseguendo, accetti i nostri
+                                <a class="text-primary auth-register__terms-link">
+                                    Termini di Servizio
+                                </a>.
+                            </p>
+
+                            @if (errorMessage) {
+                                <div class="auth-register__error">{{ errorMessage }}</div>
+                            }
+
+                            <button type="submit" class="btn-primary auth-register__submit" [disabled]="loading">
+                                {{ loading ? 'Creazione in corso...' : 'Crea un account' }}
+                            </button>
+                        </form>
+
+                        <p class="auth-register__switch">
+                            Hai già un account? <a routerLink="/auth/login"
+                                class="text-primary auth-register__switch-link">Accedi</a>
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

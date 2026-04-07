@@ -1,0 +1,110 @@
+<div class="chat-page">
+  <div class="chat-layout">
+    <!-- Inbox Section -->
+    <section class="chat-inbox">
+      <div class="chat-inbox__header">
+        <h2 class="font-headline chat-inbox__title">Messaggi</h2>
+        <span class="chat-inbox__badge">4 Nuovi</span>
+      </div>
+
+      <div class="chat-inbox__list">
+        @for (conv of conversations; track conv.id) {
+          <div
+            class="chat-item"
+            [class.chat-item--active]="activeChat?.id === conv.id"
+            [class.chat-item--read]="conv.unread === 0"
+            (click)="selectChat(conv)">
+            <div class="chat-item__avatar-wrap">
+              @if (conv.isAnonymous) {
+                <div class="chat-item__avatar chat-item__avatar--anon">
+                  <span class="material-symbols-outlined">visibility</span>
+                </div>
+              } @else {
+                <div class="chat-item__avatar chat-item__avatar--img">
+                  <span class="material-symbols-outlined">person</span>
+                </div>
+              }
+              @if (conv.online) {
+                <div class="chat-item__online-dot"></div>
+              }
+            </div>
+            <div class="chat-item__content">
+              <div class="chat-item__top">
+                <h3 class="chat-item__name" [class.chat-item__name--anon]="conv.isAnonymous">{{ conv.name }}</h3>
+                <span class="chat-item__time">{{ conv.time }}</span>
+              </div>
+              <p class="chat-item__preview" [class.chat-item__preview--bold]="conv.unread > 0">{{ conv.lastMessage }}</p>
+            </div>
+            @if (conv.unread > 0) {
+              <div class="chat-item__unread">{{ conv.unread }}</div>
+            }
+          </div>
+        }
+      </div>
+    </section>
+
+    <!-- Active Chat Section -->
+    <section class="chat-conversation">
+      <div class="chat-conversation__header">
+        <div class="chat-conversation__user">
+          <div class="chat-conversation__user-avatar">
+            <span class="material-symbols-outlined">person</span>
+          </div>
+          <div>
+            <p class="chat-conversation__user-name">{{ activeChat?.name }}</p>
+            <p class="chat-conversation__user-status">Attiva ora</p>
+          </div>
+        </div>
+        <div class="chat-conversation__actions">
+          <span class="material-symbols-outlined">call</span>
+          <span class="material-symbols-outlined">videocam</span>
+          <span class="material-symbols-outlined">info</span>
+        </div>
+      </div>
+
+      <!-- Messages Area -->
+      <div class="chat-conversation__messages">
+        <div class="chat-conversation__date-sep">
+          <span>Oggi</span>
+        </div>
+
+        @for (msg of messages; track msg.id) {
+          <div class="chat-bubble" [class.chat-bubble--mine]="msg.isMine" [class.chat-bubble--theirs]="!msg.isMine">
+            @if (!msg.isMine) {
+              <div class="chat-bubble__avatar">
+                <span class="material-symbols-outlined">person</span>
+              </div>
+            }
+            <div class="chat-bubble__wrap">
+              <div class="chat-bubble__text">
+                <p>{{ msg.text }}</p>
+              </div>
+              <span class="chat-bubble__time">{{ msg.time }}</span>
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- Input Area -->
+      <div class="chat-conversation__input-area">
+        <div class="chat-conversation__input-wrap">
+          <button class="chat-conversation__input-action">
+            <span class="material-symbols-outlined">add_circle</span>
+          </button>
+          <input
+            type="text"
+            class="chat-conversation__input"
+            placeholder="Scrivi un messaggio..."
+            [(ngModel)]="newMessage"
+            (keyup.enter)="sendMessage()"/>
+          <div class="chat-conversation__input-right">
+            <span class="material-symbols-outlined">mood</span>
+            <button class="chat-conversation__send-btn" (click)="sendMessage()">
+              <span class="material-symbols-outlined">send</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
