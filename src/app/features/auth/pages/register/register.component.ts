@@ -63,16 +63,16 @@ export class RegisterComponent {
 
     const form = this.registerForm.value;
     const payload: RegisterRequest = {
-      nome: form.firstName,
-      cognome: form.lastName,
-      dataNascita: {
-        giorno: Number(form.birthDay),
-        mese: Number(form.birthMonth),
-        anno: Number(form.birthYear),
+      name: form.firstName,
+      surname: form.lastName,
+      dateOfBirth: {
+        day: Number(form.birthDay),
+        month: Number(form.birthMonth),
+        year: Number(form.birthYear),
       },
       email: form.email,
       password: form.password,
-      telefono: form.phone || undefined,
+      telephone: form.phone || undefined,
     };
 
     this.authService.register(payload).subscribe({

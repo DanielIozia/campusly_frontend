@@ -1,17 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth/auth.service';
 
 @Component({
-    selector: 'app-oauth-callback',
-    standalone: true,
-    template: `
+  selector: 'app-oauth-callback',
+  standalone: true,
+  template: `
     <div class="oauth-callback">
       <span class="material-symbols-outlined oauth-callback__spinner">progress_activity</span>
       <p>Autenticazione in corso...</p>
     </div>
   `,
-    styles: [`
+  styles: [`
     .oauth-callback {
       min-height: 100dvh;
       display: flex;
@@ -31,22 +30,11 @@ import { AuthService } from '../../../../core/services/auth/auth.service';
   `]
 })
 export class OauthCallbackComponent implements OnInit {
-    constructor(
-        private route: ActivatedRoute,
-        private router: Router,
-        private authService: AuthService
-    ) { }
+  constructor(
+    private authService: AuthService
+  ) { }
 
-    ngOnInit(): void {
-        const params = this.route.snapshot.queryParams;
-        const accessToken = params['accessToken'];
-        const refreshToken = params['refreshToken'];
-
-        if (accessToken && refreshToken) {
-            this.authService.handleOAuthCallback(accessToken, refreshToken);
-            this.router.navigate(['/feed']);
-        } else {
-            this.router.navigate(['/auth/login']);
-        }
-    }
+  ngOnInit(): void {
+    this.authService.handleOAuthCallback();
+  }
 }

@@ -1,14 +1,14 @@
 export interface RegisterRequest {
-  nome: string;
-  cognome: string;
-  dataNascita: {
-    giorno: number;
-    mese: number;
-    anno: number;
+  name: string;
+  surname: string;
+  dateOfBirth: {
+    day: number;
+    month: number;
+    year: number;
   };
   email: string;
   password: string;
-  telefono?: string;
+  telephone?: string;
 }
 
 export interface LoginRequest {
@@ -16,19 +16,14 @@ export interface LoginRequest {
   password: string;
 }
 
-export interface AuthResponse {
-  accessToken: string;
-  refreshToken: string;
-}
-
 export interface UserProfile {
   id: string;
   username: string;
-  nome: string;
-  cognome: string;
+  name: string;
+  surname: string;
   email: string;
-  dataNascita: string | null;
-  telefono: string | null;
+  dateOfBirth: string | null;
+  telephone: string | null;
   photoUrl: string | null;
   bio: string | null;
   role: 'STUDENT';

@@ -1,0 +1,651 @@
+// =============================================
+// DESIGN SYSTEM: "Vibrant Academic Pulse"
+// custom.scss - Design Tokens & Theme Variables
+// =============================================
+
+// ---- BREAKPOINTS ----
+$mobile: 0;
+$tablet: 768px;
+$desktop: 1024px;
+
+// ---- SPACING SCALE ----
+$space-xs: 4px;
+$space-sm: 8px;
+$space-md: 16px;
+$space-lg: 24px;
+$space-xl: 32px;
+$space-2xl: 48px;
+$space-3xl: 64px;
+
+// ---- BORDER RADIUS ----
+$radius-default: 16px;
+$radius-lg: 24px;
+$radius-xl: 32px;
+$radius-2xl: 48px;
+$radius-full: 9999px;
+
+// ---- TYPOGRAPHY ----
+$font-headline: 'Epilogue', sans-serif;
+$font-body: 'Plus Jakarta Sans', sans-serif;
+$font-label: 'Plus Jakarta Sans', sans-serif;
+
+// ---- ELEVATION ----
+$shadow-soft: 0 20px 40px rgba(88, 67, 208, 0.08);
+$shadow-card: 0 20px 40px rgba(88, 67, 208, 0.06);
+$shadow-primary: 0 10px 30px rgba(88, 67, 208, 0.3);
+$shadow-nav: 0 -10px 40px rgba(111, 92, 232, 0.08);
+
+// ---- LIGHT THEME TOKENS ----
+:root,
+.light-theme {
+    // Surfaces
+    --surface: #f8f5ff;
+    --surface-container: #e9e6f4;
+    --surface-container-low: #f2effc;
+    --surface-container-high: #e3e1f0;
+    --surface-container-highest: #dddbeb;
+    --surface-container-lowest: #ffffff;
+    --surface-dim: #d5d3e3;
+    --surface-bright: #f8f5ff;
+    --surface-variant: #dddbeb;
+    --surface-tint: #5843d0;
+
+    // Background
+    --background: #f8f5ff;
+    --on-background: #2e2e37;
+
+    // Primary
+    --primary: #5843d0;
+    --primary-dim: #4b34c3;
+    --primary-container: #9f92ff;
+    --primary-fixed: #9f92ff;
+    --primary-fixed-dim: #9182ff;
+    --on-primary: #f5f0ff;
+    --on-primary-container: #1f0078;
+    --on-primary-fixed: #000000;
+    --on-primary-fixed-variant: #270092;
+    --inverse-primary: #8e7fff;
+
+    // Secondary
+    --secondary: #af2525;
+    --secondary-dim: #9d181b;
+    --secondary-container: #ffc3bd;
+    --secondary-fixed: #ffc3bd;
+    --secondary-fixed-dim: #ffafa8;
+    --on-secondary: #ffefed;
+    --on-secondary-container: #910c14;
+    --on-secondary-fixed: #700009;
+    --on-secondary-fixed-variant: #9f191c;
+
+    // Tertiary (Erasmus/Gold)
+    --tertiary: #6c5a00;
+    --tertiary-dim: #5e4e00;
+    --tertiary-container: #ffd709;
+    --tertiary-fixed: #ffd709;
+    --tertiary-fixed-dim: #efc900;
+    --on-tertiary: #fff2cd;
+    --on-tertiary-container: #5b4b00;
+    --on-tertiary-fixed: #453900;
+    --on-tertiary-fixed-variant: #665500;
+
+    // Error
+    --error: #b41340;
+    --error-dim: #a70138;
+    --error-container: #f74b6d;
+    --on-error: #ffefef;
+    --on-error-container: #510017;
+
+    // On-Surface
+    --on-surface: #2e2e37;
+    --on-surface-variant: #5b5a64;
+    --inverse-surface: #0d0d15;
+    --inverse-on-surface: #9d9ca6;
+
+    // Outline
+    --outline: #777680;
+    --outline-variant: #aeacb7;
+
+    // Gradients
+    --primary-gradient: linear-gradient(135deg, #5843d0 0%, #9f92ff 100%);
+    --aurora-gradient: radial-gradient(circle at 0% 0%, rgba(159, 146, 255, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 100% 100%, rgba(255, 195, 189, 0.15) 0%, transparent 50%);
+
+    // Glass
+    --glass-bg: rgba(248, 245, 255, 0.7);
+    --glass-blur: blur(20px);
+
+    // Navbar
+    --nav-bg: rgba(248, 245, 255, 0.7);
+    --nav-active-bg: rgba(88, 67, 208, 0.1);
+    --nav-active-color: #5843d0;
+    --nav-inactive-color: #9ca3af;
+}
+
+// ---- DARK THEME TOKENS ----
+.dark-theme {
+    // Surfaces
+    --surface: #0d0d15;
+    --surface-container: #181821;
+    --surface-container-low: #13131b;
+    --surface-container-high: #1f1f29;
+    --surface-container-highest: #282835;
+    --surface-container-lowest: #08080d;
+    --surface-dim: #0d0d15;
+    --surface-bright: #1a1a24;
+    --surface-variant: #282835;
+    --surface-tint: #5843d0;
+
+    // Background
+    --background: #0d0d15;
+    --on-background: #f5f0ff;
+
+    // Primary
+    --primary: #5843d0;
+    --primary-dim: #4b34c3;
+    --primary-container: #5843d0;
+    --primary-fixed: #9f92ff;
+    --primary-fixed-dim: #9182ff;
+    --on-primary: #f5f0ff;
+    --on-primary-container: #f5f0ff;
+    --on-primary-fixed: #000000;
+    --on-primary-fixed-variant: #270092;
+    --inverse-primary: #8e7fff;
+
+    // Secondary
+    --secondary: #af2525;
+    --secondary-dim: #9d181b;
+    --secondary-container: #af2525;
+    --secondary-fixed: #ffc3bd;
+    --secondary-fixed-dim: #ffafa8;
+    --on-secondary: #ffffff;
+    --on-secondary-container: #ffefed;
+    --on-secondary-fixed: #700009;
+    --on-secondary-fixed-variant: #9f191c;
+
+    // Tertiary (Erasmus/Gold)
+    --tertiary: #6c5a00;
+    --tertiary-dim: #5e4e00;
+    --tertiary-container: #ffd709;
+    --tertiary-fixed: #ffd709;
+    --tertiary-fixed-dim: #efc900;
+    --on-tertiary: #fff2cd;
+    --on-tertiary-container: #5b4b00;
+    --on-tertiary-fixed: #453900;
+    --on-tertiary-fixed-variant: #665500;
+
+    // Error
+    --error: #b41340;
+    --error-dim: #a70138;
+    --error-container: #f74b6d;
+    --on-error: #ffefef;
+    --on-error-container: #510017;
+
+    // On-Surface
+    --on-surface: #f5f0ff;
+    --on-surface-variant: #aeacb7;
+    --inverse-surface: #f8f5ff;
+    --inverse-on-surface: #2e2e37;
+
+    // Outline
+    --outline: #777680;
+    --outline-variant: rgba(174, 172, 183, 0.15);
+
+    // Gradients
+    --primary-gradient: linear-gradient(135deg, #5843d0 0%, #9f92ff 100%);
+    --aurora-gradient: radial-gradient(circle at 20% 30%, rgba(88, 67, 208, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(175, 37, 37, 0.1) 0%, transparent 50%);
+
+    // Glass
+    --glass-bg: rgba(13, 13, 21, 0.7);
+    --glass-blur: blur(20px);
+
+    // Navbar
+    --nav-bg: rgba(13, 13, 21, 0.7);
+    --nav-active-bg: rgba(88, 67, 208, 0.2);
+    --nav-active-color: #9f92ff;
+    --nav-inactive-color: #5b5a64;
+}
+
+// =============================================
+// UTILITY CLASSES
+// =============================================
+
+// ---- TYPOGRAPHY ----
+.font-headline {
+    font-family: $font-headline;
+}
+
+.font-body {
+    font-family: $font-body;
+}
+
+.font-label {
+    font-family: $font-label;
+}
+
+.display-lg {
+    font-family: $font-headline;
+    font-weight: 900;
+    font-size: 3rem;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+}
+
+.display-sm {
+    font-family: $font-headline;
+    font-weight: 800;
+    font-size: 2.25rem;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+}
+
+.headline-lg {
+    font-family: $font-headline;
+    font-weight: 800;
+    font-size: 1.75rem;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+}
+
+.headline-md {
+    font-family: $font-headline;
+    font-weight: 700;
+    font-size: 1.5rem;
+    line-height: 1.25;
+}
+
+.label-md {
+    font-family: $font-label;
+    font-weight: 700;
+    font-size: 0.625rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+}
+
+.label-sm {
+    font-family: $font-label;
+    font-weight: 600;
+    font-size: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.body-lg {
+    font-family: $font-body;
+    font-weight: 400;
+    font-size: 1.125rem;
+    line-height: 1.65;
+}
+
+.body-md {
+    font-family: $font-body;
+    font-weight: 400;
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+// ---- SURFACES ----
+.bg-surface {
+    background-color: var(--surface);
+}
+
+.bg-surface-container {
+    background-color: var(--surface-container);
+}
+
+.bg-surface-container-low {
+    background-color: var(--surface-container-low);
+}
+
+.bg-surface-container-high {
+    background-color: var(--surface-container-high);
+}
+
+.bg-surface-container-highest {
+    background-color: var(--surface-container-highest);
+}
+
+.bg-surface-container-lowest {
+    background-color: var(--surface-container-lowest);
+}
+
+.bg-background {
+    background-color: var(--background);
+}
+
+.bg-primary {
+    background-color: var(--primary);
+}
+
+.bg-primary-dim {
+    background-color: var(--primary-dim);
+}
+
+.bg-primary-container {
+    background-color: var(--primary-container);
+}
+
+.bg-secondary {
+    background-color: var(--secondary);
+}
+
+.bg-secondary-container {
+    background-color: var(--secondary-container);
+}
+
+.bg-tertiary-container {
+    background-color: var(--tertiary-container);
+}
+
+.bg-error {
+    background-color: var(--error);
+}
+
+.bg-error-container {
+    background-color: var(--error-container);
+}
+
+.bg-primary-gradient {
+    background: var(--primary-gradient);
+}
+
+// ---- TEXT COLORS ----
+.text-on-surface {
+    color: var(--on-surface);
+}
+
+.text-on-surface-variant {
+    color: var(--on-surface-variant);
+}
+
+.text-on-background {
+    color: var(--on-background);
+}
+
+.text-on-primary {
+    color: var(--on-primary);
+}
+
+.text-on-primary-container {
+    color: var(--on-primary-container);
+}
+
+.text-on-secondary {
+    color: var(--on-secondary);
+}
+
+.text-on-secondary-container {
+    color: var(--on-secondary-container);
+}
+
+.text-on-tertiary-container {
+    color: var(--on-tertiary-container);
+}
+
+.text-on-error {
+    color: var(--on-error);
+}
+
+.text-primary {
+    color: var(--primary);
+}
+
+.text-secondary {
+    color: var(--secondary);
+}
+
+.text-tertiary {
+    color: var(--tertiary);
+}
+
+.text-outline {
+    color: var(--outline);
+}
+
+.text-outline-variant {
+    color: var(--outline-variant);
+}
+
+// ---- ELEVATION ----
+.elevation-soft {
+    box-shadow: $shadow-soft;
+}
+
+.elevation-card {
+    box-shadow: $shadow-card;
+}
+
+.elevation-primary {
+    box-shadow: $shadow-primary;
+}
+
+// ---- GLASS EFFECT ----
+.glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+// ---- AURORA BACKGROUND ----
+.aurora-bg {
+    &::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 400px;
+        background: var(--aurora-gradient);
+        z-index: -1;
+        pointer-events: none;
+    }
+}
+
+// ---- ROUNDED CORNERS ----
+.rounded-default {
+    border-radius: $radius-default;
+}
+
+.rounded-lg {
+    border-radius: $radius-lg;
+}
+
+.rounded-xl {
+    border-radius: $radius-xl;
+}
+
+.rounded-2xl {
+    border-radius: $radius-2xl;
+}
+
+.rounded-full {
+    border-radius: $radius-full;
+}
+
+// ---- BUTTON STYLES ----
+.btn-primary {
+    background: var(--primary-gradient);
+    color: var(--on-primary);
+    font-family: $font-label;
+    font-weight: 700;
+    border: none;
+    border-radius: $radius-full;
+    padding: $space-md $space-xl;
+    box-shadow: 0 10px 30px rgba(88, 67, 208, 0.2);
+    transition: all 0.2s ease;
+    cursor: pointer;
+
+    &:hover {
+        transform: scale(1.02);
+    }
+
+    &:active {
+        transform: scale(0.95);
+    }
+}
+
+.btn-surface {
+    background-color: var(--surface-container-low);
+    color: var(--on-surface);
+    font-family: $font-label;
+    font-weight: 600;
+    border: none;
+    border-radius: $radius-full;
+    padding: $space-md $space-xl;
+    transition: all 0.2s ease;
+    cursor: pointer;
+
+    &:hover {
+        background-color: var(--surface-container-high);
+    }
+
+    &:active {
+        transform: scale(0.95);
+    }
+}
+
+// ---- INPUT STYLES ----
+.input-field {
+    width: 100%;
+    background-color: var(--surface-container-low);
+    color: var(--on-surface);
+    border: none;
+    border-radius: $radius-default;
+    padding: $space-md $space-lg;
+    font-family: $font-body;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+    outline: none;
+
+    &::placeholder {
+        color: var(--outline-variant);
+    }
+
+    &:focus {
+        background-color: var(--surface-container-highest);
+        box-shadow: 0 0 0 2px rgba(88, 67, 208, 0.4);
+    }
+}
+
+.input-rounded {
+    border-radius: $radius-full;
+    padding: $space-md $space-lg;
+}
+
+// ---- CARD STYLES ----
+.card {
+    background-color: var(--surface-container-lowest);
+    border-radius: $radius-lg;
+    box-shadow: $shadow-card;
+    overflow: hidden;
+}
+
+.card-surface {
+    background-color: var(--surface-container-low);
+    border-radius: $radius-default;
+    overflow: hidden;
+}
+
+// ---- CHIP / PILL ----
+.chip {
+    display: inline-flex;
+    align-items: center;
+    gap: $space-sm;
+    padding: $space-sm $space-md;
+    border-radius: $radius-full;
+    font-family: $font-label;
+    font-weight: 600;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.chip-active {
+    background-color: var(--primary);
+    color: var(--on-primary);
+}
+
+.chip-inactive {
+    background-color: var(--surface-container-low);
+    color: var(--on-surface-variant);
+
+    &:hover {
+        background-color: var(--surface-container);
+    }
+}
+
+// ---- ERASMUS BADGE ----
+.erasmus-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: $space-xs;
+    padding: 2px $space-md;
+    border-radius: $radius-full;
+    background: linear-gradient(135deg, var(--tertiary) 0%, var(--tertiary-container) 100%);
+    font-family: $font-label;
+    font-weight: 800;
+    font-size: 0.625rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--on-tertiary-container);
+}
+
+// ---- ANONYMOUS AVATAR ----
+.anon-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--primary-dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(#ffffff22 1px, transparent 1px);
+        background-size: 4px 4px;
+    }
+}
+
+// ---- GHOST BORDER ----
+.ghost-border {
+    outline: 1px solid rgba(174, 172, 183, 0.15);
+}
+
+// ---- NO SCROLLBAR ----
+.no-scrollbar {
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+// ---- MATERIAL ICONS ----
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    vertical-align: middle;
+}
+
+.material-symbols-filled {
+    font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    vertical-align: middle;
+}
+
+// ---- RESPONSIVE MIXINS ----
+@mixin tablet {
+    @media (min-width: $tablet) {
+        @content;
+    }
+}
+
+@mixin desktop {
+    @media (min-width: $desktop) {
+        @content;
+    }
+}

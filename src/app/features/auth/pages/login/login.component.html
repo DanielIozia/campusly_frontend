@@ -39,19 +39,20 @@
                             <div class="auth-login__field">
                                 <label class="auth-login__label">Email</label>
                                 <input type="email" formControlName="email" class="input-field input-rounded"
-                                    placeholder="student&#64;polimi.it">
+                                    placeholder="student&#64;polimi.it" autocomplete="email">
                                 <app-form-error [control]="loginForm.get('email')"></app-form-error>
                             </div>
                             <div class="auth-login__field">
                                 <label class="auth-login__label">Password</label>
-                                <input type="password" formControlName="password" class="input-field input-rounded"
-                                    placeholder="••••••••">
+                                <input type="password" formControlName="password" autocomplete="current-password"
+                                    class="input-field input-rounded" placeholder="••••••••">
                                 <app-form-error [control]="loginForm.get('password')"></app-form-error>
                             </div>
-                            <a routerLink="/auth/forgot-password" class="auth-login__forgot-link">Non ricordi la password?</a>
+                            <a routerLink="/auth/forgot-password" class="auth-login__forgot-link">Non ricordi la
+                                password?</a>
 
                             @if (errorMessage) {
-                                <div class="auth-login__error">{{ errorMessage }}</div>
+                            <div class="auth-login__error">{{ errorMessage }}</div>
                             }
 
                             <button type="submit" class="btn-primary auth-login__submit" [disabled]="loading">
