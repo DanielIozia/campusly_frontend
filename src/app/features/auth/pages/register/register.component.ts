@@ -2,9 +2,7 @@ import { Component } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { FormErrorComponent } from '../../../../shared/components/form-error/form-error.component';
-import { AuthService } from '../../../../core/services/auth/auth.service';
-import { RegisterRequest, ApiError } from '../../../../core/models/auth.models';
-import { HttpErrorResponse } from '@angular/common/http';
+import { RegistrationService } from '../../../../core/services/registration.service';
 
 @Component({
   selector: 'app-register',
@@ -37,7 +35,7 @@ export class RegisterComponent {
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService,
+    private service: RegistrationService,
     private router: Router
   ) {
     const currentYear = new Date().getFullYear();
@@ -46,6 +44,7 @@ export class RegisterComponent {
     this.registerForm = this.fb.group({
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
+      username: ['', [Validators.required]],
       birthDay: ['', [Validators.required]],
       birthMonth: ['', [Validators.required]],
       birthYear: ['', [Validators.required, this.minAgeValidator(16)]],
@@ -56,35 +55,38 @@ export class RegisterComponent {
   }
 
   onSubmit(): void {
-    if (!this.registerForm.valid) return;
+    // console.log("prima");
+    // console.log(this.registerForm.value);
+    // if (!this.registerForm.valid) return;
+    // console.log("dopo");
+    // this.loading = true;
+    // this.errorMessage = null;
 
-    this.loading = true;
-    this.errorMessage = null;
+    // const form = this.registerForm.value;
+    // const payload: RegisterRequest = {
+    //   firstName: form.firstName,
+    //   lastName: form.lastName,
+    //   username: form.username,
+    //   birthDate: {
+    //     day: Number(form.birthDay),
+    //     month: Number(form.birthMonth),
+    //     year: Number(form.birthYear),
+    //   },
+    //   email: form.email,
+    //   password: form.password,
+    //   phone: form.phone || undefined,
+    // };
 
-    const form = this.registerForm.value;
-    const payload: RegisterRequest = {
-      name: form.firstName,
-      surname: form.lastName,
-      dateOfBirth: {
-        day: Number(form.birthDay),
-        month: Number(form.birthMonth),
-        year: Number(form.birthYear),
-      },
-      email: form.email,
-      password: form.password,
-      telephone: form.phone || undefined,
-    };
-
-    this.authService.register(payload).subscribe({
-      next: () => {
-        this.router.navigate(['/feed']);
-      },
-      error: (err: HttpErrorResponse) => {
-        this.loading = false;
-        const apiError = err.error as ApiError;
-        this.errorMessage = apiError?.content || 'Errore durante la registrazione';
-      }
-    });
+    // this.service.(payload).subscribe({
+    //   next: () => {
+    //     this.router.navigate(['/feed']);
+    //   },
+    //   error: (err: HttpErrorResponse) => {
+    //     this.loading = false;
+    //     const apiError = err.error as ApiResponse<null>;
+    //     this.errorMessage = apiError?.error?.message || apiError?.warning?.message || 'Errore durante la registrazione';
+    //   }
+    // });
   }
 
   private minAgeValidator(minAge: number) {

@@ -1,0 +1,36 @@
+// Override stili ng-otp-input per coerenza con il design system
+::ng-deep {
+    .ng-otp-input-wrapper {
+        display: flex !important;
+        gap: 10px !important;
+        justify-content: center;
+
+        .otp-input {
+            width: 48px !important;
+            height: 56px !important;
+            border-radius: 12px !important;
+            border: 1.5px solid var(--outline, #d0d5dd) !important;
+            background-color: var(--surface-container, #f9fafb) !important;
+            font-size: 1.5rem !important;
+            font-weight: 700 !important;
+            color: var(--on-surface) !important;
+            text-align: center !important;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+            caret-color: var(--primary) !important;
+            outline: none !important;
+            padding: 0 !important;
+
+            &:focus {
+                border-color: var(--primary) !important;
+                box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 18%, transparent) !important;
+                background-color: #ffffff !important;
+            }
+
+            // Stato filled (ha un valore) — leggero highlight
+            &:not(:placeholder-shown) {
+                border-color: color-mix(in srgb, var(--primary) 50%, transparent) !important;
+                background-color: color-mix(in srgb, var(--primary) 5%, #ffffff) !important;
+            }
+        }
+    }
+}

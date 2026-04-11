@@ -47,6 +47,13 @@
                                 </div>
                             </div>
 
+                            <div class="auth-register__field">
+                                <label class="auth-register__label">Username</label>
+                                <input type="text" formControlName="username" class="input-field input-rounded"
+                                    placeholder="mario.rossi" autocomplete="username">
+                                <app-form-error [control]="registerForm.get('username')"></app-form-error>
+                            </div>
+
                             <!-- [INPUT] date of birth -->
                             <div class="auth-register__field">
                                 <label class="auth-register__label">Data di nascita</label>

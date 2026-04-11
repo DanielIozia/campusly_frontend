@@ -1,46 +1,56 @@
-export interface RegisterRequest {
-  name: string;
-  surname: string;
-  dateOfBirth: {
-    day: number;
-    month: number;
-    year: number;
-  };
-  email: string;
-  password: string;
-  telephone?: string;
-}
+// =============================================================================
+// - login
+// - me 
+// - forgot-password
+// - verify-password-otp
+// - reset-password
+// =============================================================================
 
-export interface LoginRequest {
-  email: string;
-  password: string;
-}
 
-export interface UserProfile {
-  id: string;
-  username: string;
-  name: string;
-  surname: string;
-  email: string;
-  dateOfBirth: string | null;
-  telephone: string | null;
-  photoUrl: string | null;
-  bio: string | null;
-  role: 'STUDENT';
-  authProvider: 'LOCAL' | 'GOOGLE';
-  createdAt: string;
-}
+import { ApiBase_Response } from "./api.interfaces";
 
-export interface ValidationError {
-  field: string;
-  message: string;
-}
 
-export interface ApiError {
-  httpMethod: string;
-  status: number;
-  title: string;
-  content: string;
-  errors: ValidationError[];
-  timestamp: string;
+// interfaces used on endpoint: POST /auth/login
+export interface Login_Request {
+    email: string;
+    password: string;
 }
+export type UserRole = 'CAMPUSLY_USER'; //! aggiungere altri ruoli in futuro 
+export interface Login_Response {
+    id: string,
+    username: string,
+    email: string,
+    role: UserRole
+}
+export interface Login_ResponseData extends ApiBase_Response<Login_Response> { }
+
+
+// interfaces used on endpoint: POST /auth/me
+export interface Me_ResponseData extends ApiBase_Response<Login_Response> { }
+
+
+// interfaces used on endpoint: POST /auth/forgot-password
+export interface ForgotPassword_Request {
+    email: string;
+}
+export interface ForgotPassword_ResponseData extends ApiBase_Response<null> { }
+
+
+//interfaces used on endpoint: POST /auth/verify-password-otp
+export interface VerifyPasswordOtp_Request {
+    email: string;
+    otpCode: string;
+}
+export interface VerifyPasswordOtp_ResponseData extends ApiBase_Response<null> { }
+
+
+//interfaces used on endpoint: POST /auth/reset-password
+export interface ResetPassword_Request {
+    email: string;
+    newPassword: string;
+}
+export interface ResetPassword_ResponseData extends ApiBase_Response<Login_Response> { }
+
+
+
+

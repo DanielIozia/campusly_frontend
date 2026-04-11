@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
-import { FormErrorService } from '../../../core/services/form-error/form-error.service';
+import { FormErrorService } from '../../../core/services/form-error.service';
 
 @Component({
     selector: 'app-form-error',

@@ -23,7 +23,7 @@
 
                     <div class="auth-login__card card">
                         <div class="auth-login__socials">
-                            <button class="btn-surface auth-login__social-btn" (click)="loginWithGoogle()">
+                            <button class="btn-surface auth-login__social-btn" (click)="featureNotImplemented()">
                                 <i class="bi bi-google"></i>
                                 <span>Continue con Google</span>
                             </button>
@@ -35,18 +35,18 @@
                             <span class="auth-login__divider-line"></span>
                         </div>
 
-                        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-login__form">
+                        <form [formGroup]="form" (ngSubmit)="onLogin()" class="auth-login__form">
                             <div class="auth-login__field">
                                 <label class="auth-login__label">Email</label>
                                 <input type="email" formControlName="email" class="input-field input-rounded"
                                     placeholder="student&#64;polimi.it" autocomplete="email">
-                                <app-form-error [control]="loginForm.get('email')"></app-form-error>
+                                <app-form-error [control]="form.get('email')"></app-form-error>
                             </div>
                             <div class="auth-login__field">
                                 <label class="auth-login__label">Password</label>
                                 <input type="password" formControlName="password" autocomplete="current-password"
                                     class="input-field input-rounded" placeholder="••••••••">
-                                <app-form-error [control]="loginForm.get('password')"></app-form-error>
+                                <app-form-error [control]="form.get('password')"></app-form-error>
                             </div>
                             <a routerLink="/auth/forgot-password" class="auth-login__forgot-link">Non ricordi la
                                 password?</a>
@@ -55,14 +55,16 @@
                             <div class="auth-login__error">{{ errorMessage }}</div>
                             }
 
-                            <button type="submit" class="btn-primary auth-login__submit" [disabled]="loading">
-                                {{ loading ? 'Accesso in corso...' : 'Sign In' }}
+                            <button type="submit" class="btn-primary auth-login__submit" [disabled]="isLoading()">
+                                {{ isLoading() ? 'Accesso in corso...' : 'Accedi' }}
                             </button>
                         </form>
 
                         <p class="auth-login__switch">
-                            Non hai un account? <a routerLink="/auth/register"
-                                class="text-primary auth-login__switch-link">Registrati</a>
+                            Non hai un account? 
+                            <a routerLink="/auth/register" class="text-primary auth-login__switch-link">
+                                Registrati
+                            </a>
                         </p>
                     </div>
 

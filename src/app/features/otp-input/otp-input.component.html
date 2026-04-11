@@ -1,0 +1,3 @@
+<ng-otp-input [config]="{ length: minLength, allowNumbersOnly: onlyNumbers, isPasswordInput: false }"
+    [ngClass]="{ 'otp--disabled': isDisabled }" (onInputChange)="onOtpChange($event)">
+</ng-otp-input>
