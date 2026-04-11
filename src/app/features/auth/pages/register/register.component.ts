@@ -1,20 +1,38 @@
-import { Component } from '@angular/core';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
+import { Component, signal } from '@angular/core';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { FormErrorComponent } from '../../../../shared/components/form-error/form-error.component';
 import { RegistrationService } from '../../../../core/services/registration.service';
+import { CommonModule } from '@angular/common';
+import { FormErrorService } from '../../../../core/services/form-error.service';
+import * as Registration_Models from '../../../../core/models/register.models';
+import { OtpInputComponent } from '../../../otp-input/otp-input.component';
+import { finalize } from 'rxjs';
+
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink, FormErrorComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterLink,
+    FormErrorComponent,
+    OtpInputComponent,
+  ],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.scss'
+  styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent {
-  registerForm: FormGroup;
-  errorMessage: string | null = null;
-  loading = false;
+
+  public showModal = signal<views>('send_email');
+
+  public sendEmail: FormGroup;
+  public otpCode: FormGroup;
+  public info: FormGroup;
+  public showPassword = false;
+  public showConfirmPassword = false
+  public loading = signal(false);
 
   days = Array.from({ length: 31 }, (_, i) => i + 1);
   months = [
@@ -35,66 +53,128 @@ export class RegisterComponent {
 
   constructor(
     private fb: FormBuilder,
-    private service: RegistrationService,
-    private router: Router
+    private registrationService: RegistrationService,
+    private formErrorService: FormErrorService,
+    private router: Router,
   ) {
     const currentYear = new Date().getFullYear();
     this.years = Array.from({ length: 100 }, (_, i) => currentYear - i);
 
-    this.registerForm = this.fb.group({
+    this.sendEmail = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+    });
+    this.otpCode = this.fb.group({
+      otp: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]],
+    });
+    this.info = this.fb.group({
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
       username: ['', [Validators.required]],
       birthDay: ['', [Validators.required]],
       birthMonth: ['', [Validators.required]],
-      birthYear: ['', [Validators.required, this.minAgeValidator(16)]],
-      email: ['', [Validators.required, Validators.email]],
+      birthYear: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(8)]],
-      phone: [''],
+      confirmPassword: ['', [Validators.required, Validators.minLength(8)]],
+    }, { validators: this.formErrorService.passwordMatchValidator })
+  }
+
+
+  onSendEmail(): void {
+    if (!this.sendEmail.valid) return;
+
+    this.loading.set(true);
+    const request: Registration_Models.SendOtp_Request = {
+      email: this.sendEmail.get('email')?.value
+    }
+
+    this.registrationService.sendOtp(request)
+    .pipe(
+      finalize(() => this.loading.set(false))
+    )
+    .subscribe({
+      next: () => {
+        this.showModal.set('otp_code');
+      },
+      error: (err) => { } //! show toaster
     });
   }
 
-  onSubmit(): void {
-    // console.log("prima");
-    // console.log(this.registerForm.value);
-    // if (!this.registerForm.valid) return;
-    // console.log("dopo");
-    // this.loading = true;
-    // this.errorMessage = null;
+  resendOtp(): void {
+    if(!this.sendEmail.valid) return;
 
-    // const form = this.registerForm.value;
-    // const payload: RegisterRequest = {
-    //   firstName: form.firstName,
-    //   lastName: form.lastName,
-    //   username: form.username,
-    //   birthDate: {
-    //     day: Number(form.birthDay),
-    //     month: Number(form.birthMonth),
-    //     year: Number(form.birthYear),
-    //   },
-    //   email: form.email,
-    //   password: form.password,
-    //   phone: form.phone || undefined,
-    // };
-
-    // this.service.(payload).subscribe({
-    //   next: () => {
-    //     this.router.navigate(['/feed']);
-    //   },
-    //   error: (err: HttpErrorResponse) => {
-    //     this.loading = false;
-    //     const apiError = err.error as ApiResponse<null>;
-    //     this.errorMessage = apiError?.error?.message || apiError?.warning?.message || 'Errore durante la registrazione';
-    //   }
-    // });
+    this.loading.set(true);
+    const request: Registration_Models.ResendOtp_Request = {
+      email: this.sendEmail.get('email')?.value
+    }
+    this.registrationService.resendOtp(request)
+    .pipe(
+      finalize(() => this.loading.set(false))
+    )
+    .subscribe({
+      next: () => {
+        //! show toaster "OTP resent"
+      },
+      error: (err) => { } //! show toaster
+    });
   }
 
-  private minAgeValidator(minAge: number) {
-    return (control: AbstractControl): ValidationErrors | null => {
-      if (!control.value) return null;
-      const currentYear = new Date().getFullYear();
-      const age = currentYear - Number(control.value);
-      return age < minAge ? { underage: true } : null;
-    };
+  onVerifyOtp(): void {
+    if (!this.otpCode.valid) return;
+
+    this.loading.set(true);
+    const request: Registration_Models.VerifyOtp_Request = {
+      email: this.sendEmail.get('email')?.value,
+      otpCode: this.otpCode.get('otp')?.value
+    }
+
+    this.registrationService.verifyOtp(request)
+    .pipe(
+      finalize(() => this.loading.set(false))
+    )
+    .subscribe({
+      next: () => {
+        this.showModal.set('personal_data');
+      },
+      error: (err) => { } //! show toaster }
+    });
+
+  }
+
+  onPersonalDataSubmit(): void {
+
+    if (!this.info.valid) return;
+
+    this.loading.set(true);
+
+    const request: Registration_Models.CompleteRegistration_Request = {
+      email: this.sendEmail.get('email')?.value,
+      password: this.info.get('password')?.value,
+      firstName: this.info.get('firstName')?.value,
+      lastName: this.info.get('lastName')?.value,
+      username: this.info.get('username')?.value,
+      birthDate: {
+        day: Number(this.info.get('birthDay')?.value),
+        month: Number(this.info.get('birthMonth')?.value),
+        year: Number(this.info.get('birthYear')?.value),
+      }
+    }
+
+    this.registrationService.completeRegistration(request)
+    .pipe(
+      finalize(() => this.loading.set(false))
+    )
+    .subscribe({
+      next: () => {
+        this.router.navigate(['/feed']);
+      },
+      error: (err) => { } //! show toaster }
+    });
+  }
+
+  goToLogin(): void {
+    this.router.navigate(['/auth/login']);
   }
 }
+
+// INTERFACES AND TYPES
+type views = 'send_email' | 'otp_code' | 'personal_data';

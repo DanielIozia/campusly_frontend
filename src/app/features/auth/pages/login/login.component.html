@@ -39,29 +39,39 @@
                             <div class="auth-login__field">
                                 <label class="auth-login__label">Email</label>
                                 <input type="email" formControlName="email" class="input-field input-rounded"
-                                    placeholder="student&#64;polimi.it" autocomplete="email">
+                                    placeholder="mario.rossi@email.it" autocomplete="email">
                                 <app-form-error [control]="form.get('email')"></app-form-error>
                             </div>
                             <div class="auth-login__field">
                                 <label class="auth-login__label">Password</label>
-                                <input type="password" formControlName="password" autocomplete="current-password"
-                                    class="input-field input-rounded" placeholder="••••••••">
+                                <div class="auth-login__input-wrapper">
+                                    <input [type]="showPassword ? 'text' : 'password'" formControlName="password"
+                                        autocomplete="current-password" class="input-field input-rounded"
+                                        placeholder="••••••••">
+                                    <button type="button" class="auth-login__eye-btn" (click)="togglePassword()">
+                                        <i class="bi" [class.bi-eye]="!showPassword"
+                                            [class.bi-eye-slash]="showPassword"></i>
+                                    </button>
+                                </div>
                                 <app-form-error [control]="form.get('password')"></app-form-error>
                             </div>
-                            <a routerLink="/auth/forgot-password" class="auth-login__forgot-link">Non ricordi la
-                                password?</a>
+                            <a routerLink="/auth/forgot-password" class="auth-login__forgot-link">
+                                Non ricordi la password?
+                            </a>
 
                             @if (errorMessage) {
                             <div class="auth-login__error">{{ errorMessage }}</div>
                             }
 
-                            <button type="submit" class="btn-primary auth-login__submit" [disabled]="isLoading()">
+                            <button type="submit" class="btn-primary auth-login__submit"
+                                [ngClass]="{'disabled-button': isLoading() || form.invalid}"
+                                [disabled]="isLoading() || form.invalid">
                                 {{ isLoading() ? 'Accesso in corso...' : 'Accedi' }}
                             </button>
                         </form>
 
                         <p class="auth-login__switch">
-                            Non hai un account? 
+                            Non hai un account?
                             <a routerLink="/auth/register" class="text-primary auth-login__switch-link">
                                 Registrati
                             </a>

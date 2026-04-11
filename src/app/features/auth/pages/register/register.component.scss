@@ -88,12 +88,35 @@
     display: flex;
     flex-direction: column;
     gap: $space-md;
+    padding: 2rem;
+    border-radius: 1rem;
+    background-color: #ffffff;
+
   }
 
   &__field {
     display: flex;
     flex-direction: column;
     gap: 4px;
+
+    .auth-register__input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    // Variante per il campo OTP — centra tutto
+    &--otp {
+      align-items: center;
+
+      .auth-forgot__label {
+        align-self: flex-start;
+      }
+
+      app-form-error {
+        align-self: flex-start;
+      }
+    }
   }
 
   &__row {
@@ -126,6 +149,7 @@
     font-weight: 700;
     color: var(--on-surface-variant);
     padding-left: 8px;
+    margin-bottom: 0.5rem;
   }
 
   &__input-row {
@@ -177,6 +201,57 @@
     height: 56px;
     margin-top: $space-sm;
     font-size: 1rem;
+
+    &:disabled,
+    &.disabled-button {
+      background-color: var(--on-surface-variant);
+      cursor: not-allowed;
+      color: var(--on-disabled, #fff);
+      opacity: 0.7;
+      pointer-events: none;
+    }
+  }
+
+  // Testo hint sotto l'OTP (scadenza + resend)
+  &__otp-hint {
+    font-size: 0.8rem;
+    color: var(--on-surface-variant);
+    margin-top: $space-sm;
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  // Link "Invia di nuovo"
+  &__resend {
+    color: var(--primary);
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: opacity 0.15s ease;
+
+    &:hover {
+      opacity: 0.75;
+      text-decoration: underline;
+    }
+  }
+
+  &__eye-btn {
+    font-size: 1.25rem;
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--on-surface-variant);
+    display: flex;
+    align-items: center;
+    padding: 0;
+
+    &:hover {
+      color: var(--primary);
+    }
   }
 
   &__error {

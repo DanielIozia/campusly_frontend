@@ -143,11 +143,20 @@
         height: 56px;
         margin-top: $space-sm;
         font-size: 1rem;
+
+        &:disabled,
+        &.disabled-button {
+            background-color: var(--on-surface-variant);
+            cursor: not-allowed;
+            color: var(--on-disabled, #fff);
+            opacity: 0.7;
+            pointer-events: none;
+        }
     }
 
     &__forgot-link {
         font-size: 0.75rem;
-        color: var(--primary);
+        color: var(--primary-fixed);
         font-weight: 600;
         text-decoration: none;
         text-align: right;
@@ -179,6 +188,34 @@
 
         &:hover {
             text-decoration: underline;
+        }
+    }
+
+    &__input-wrapper {
+        position: relative;
+
+        .input-field {
+            width: 100%;
+            padding-right: 44px;
+        }
+    }
+
+    &__eye-btn {
+        font-size: 1.25rem;
+        position: absolute;
+        right: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--on-surface-variant);
+        display: flex;
+        align-items: center;
+        padding: 0;
+
+        &:hover {
+            color: var(--primary);
         }
     }
 }

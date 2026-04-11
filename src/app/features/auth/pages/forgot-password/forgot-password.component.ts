@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../../core/services/auth.service';
 import * as Auth_Models from '../../../../core/models/auth.models';
 import { OtpInputComponent } from '../../../otp-input/otp-input.component';
+import { FormErrorService } from '../../../../core/services/form-error.service';
 
 
 @Component({
@@ -22,6 +23,8 @@ import { OtpInputComponent } from '../../../otp-input/otp-input.component';
 })
 export class ForgotPasswordComponent {
 
+    public showPassword = false;
+    public showConfirmPassword = false;
     public sendEmail: FormGroup;
     public otpCode: FormGroup;
     public newPassword: FormGroup;
@@ -29,6 +32,7 @@ export class ForgotPasswordComponent {
 
     constructor(
         private authService: AuthService,
+        private formErrorService: FormErrorService,
         private router: Router,
         private route: ActivatedRoute,
         private fb: FormBuilder) {
@@ -41,18 +45,22 @@ export class ForgotPasswordComponent {
         this.newPassword = this.fb.group({
             password: ['', [Validators.required, Validators.minLength(8)]],
             confirmPassword: ['', [Validators.required, Validators.minLength(8)]],
-        },);//{ validators: this.passwordsMatchValidator });
+        }, { validators: this.formErrorService.passwordMatchValidator });
     }
 
     onSendEmail(): void {
-        if (this.sendEmail.valid) {
-            this.authService.forgotPassword(this.sendEmail.value).subscribe({
-                next: () => {
-                    this.showModal.set('otp_code');
-                },
-                error: (err) => { } //! show toaster }
-            });
+        if (!this.sendEmail.valid) return;
+
+        const request: Auth_Models.ForgotPassword_Request = {
+            email: this.sendEmail.get('email')?.value
         }
+        this.authService.forgotPassword(request).subscribe({
+            next: () => {
+                this.showModal.set('otp_code');
+            },
+            error: (err) => { } //! show toaster }
+        });
+
     }
 
     onVerifyOtp(): void {
@@ -91,6 +99,10 @@ export class ForgotPasswordComponent {
 
     goToLogin(): void {
         this.router.navigate(['auth/login']);
+    }
+
+    togglePassword(): void {
+        this.showPassword = !this.showPassword;
     }
 }
 
