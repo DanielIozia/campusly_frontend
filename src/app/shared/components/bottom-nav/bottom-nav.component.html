@@ -1,26 +1,17 @@
 <nav class="bottom-nav glass">
-  <a class="bottom-nav__item"
-     routerLink="/feed"
-     routerLinkActive="bottom-nav__item--active">
-    <span class="material-symbols-outlined" [style.fontVariationSettings]="'\'FILL\' 1'">home</span>
+  <a class="bottom-nav__item" routerLink="/feed" routerLinkActive="bottom-nav__item--active">
+    <span class="material-symbols-outlined" [style.fontVariationSettings]="'\'FILL\' 1'" matTooltip="Home">home</span>
   </a>
-  <a class="bottom-nav__item"
-     routerLink="/search"
-     routerLinkActive="bottom-nav__item--active">
-    <span class="material-symbols-outlined">search</span>
+  <a class="bottom-nav__item" routerLink="/search" routerLinkActive="bottom-nav__item--active">
+    <span class="material-symbols-outlined" matTooltip="Cerca">search</span>
   </a>
-  <a class="bottom-nav__item bottom-nav__item--fab"
-     routerLink="/create">
-    <span class="material-symbols-outlined">add</span>
+  <a class="bottom-nav__item bottom-nav__item--fab" routerLink="/create">
+    <span class="material-symbols-outlined" matTooltip="Crea">add</span>
   </a>
-  <a class="bottom-nav__item"
-     routerLink="/events"
-     routerLinkActive="bottom-nav__item--active">
-    <span class="material-symbols-outlined">calendar_month</span>
+  <a class="bottom-nav__item" routerLink="/events" routerLinkActive="bottom-nav__item--active">
+    <span class="material-symbols-outlined" matTooltip="Eventi">calendar_month</span>
   </a>
-  <a class="bottom-nav__item"
-     routerLink="/profile"
-     routerLinkActive="bottom-nav__item--active">
-    <span class="material-symbols-outlined">person</span>
+  <a class="bottom-nav__item" routerLink="/profile" routerLinkActive="bottom-nav__item--active">
+    <span class="material-symbols-outlined" matTooltip="Profilo">person</span>
   </a>
 </nav>

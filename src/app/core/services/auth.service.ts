@@ -1,10 +1,11 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { ApiBase_Response } from '../models/api.interfaces';
 import * as Auth_Models from '../models/auth.models';
+import { ToasterService } from './toaster.service';
 
 
 
@@ -25,6 +26,7 @@ export class AuthService {
   private readonly baseUrl = `${environment.apiUrl}/auth`;
   private currentUser = signal<Auth_Models.Login_ResponseData | null>(null);
   private router = inject(Router);
+  private toasterService = inject(ToasterService);
   private authChecked = signal(false);
 
   isLoggedIn = computed(() => this.currentUser() !== null);
@@ -35,21 +37,32 @@ export class AuthService {
 
   login(data: Auth_Models.Login_Request): Observable<ApiBase_Response<Auth_Models.Me_ResponseData>> {
     return this.http.post<ApiBase_Response<Auth_Models.Me_ResponseData>>(`${this.baseUrl}/login`, data).pipe(
-      tap(res => this.currentUser.set(res.data))
+      tap({
+        next: (res) => {
+          this.currentUser.set(res.data);
+        },
+        error: (err: HttpErrorResponse) => {
+          this.toasterService.sendErrorToast(err);
+        }
+      }
+      )
     );
   }
 
-  me(): void {
-    this.http.get<ApiBase_Response<Auth_Models.Me_ResponseData>>(`${this.baseUrl}/me`).subscribe({
-      next: (res) => {
-        this.currentUser.set(res.data);
-        this.authChecked.set(true);
-      },
-      error: () => {
-        this.currentUser.set(null);
-        this.authChecked.set(false);
-      },
-    });
+  me(): Observable<ApiBase_Response<Auth_Models.Me_ResponseData>> {
+    return this.http.get<ApiBase_Response<Auth_Models.Me_ResponseData>>(`${this.baseUrl}/me`).pipe(
+      tap({
+        next: (res) => {
+          this.currentUser.set(res.data);
+          this.authChecked.set(true);
+
+        },
+        error: (err: HttpErrorResponse) => {
+          this.currentUser.set(null);
+          this.authChecked.set(false);
+        },
+      })
+    );
   }
 
   logout(): void {
@@ -60,16 +73,35 @@ export class AuthService {
   }
 
   forgotPassword(request: Auth_Models.ForgotPassword_Request): Observable<ApiBase_Response<null>> {
-    return this.http.post<ApiBase_Response<null>>(`${this.baseUrl}/forgot-password`, request);
+    return this.http.post<ApiBase_Response<null>>(`${this.baseUrl}/forgot-password`, request).pipe(
+      tap({
+        error: (err: HttpErrorResponse) => {
+          this.toasterService.sendErrorToast(err);
+        }
+      })
+    );
   }
 
   verifyPasswordOtp(request: Auth_Models.VerifyPasswordOtp_Request): Observable<ApiBase_Response<null>> {
-    return this.http.post<ApiBase_Response<null>>(`${this.baseUrl}/verify-password-otp`, request);
+    return this.http.post<ApiBase_Response<null>>(`${this.baseUrl}/verify-password-otp`, request).pipe(
+      tap({
+        error: (err: HttpErrorResponse) => {
+          this.toasterService.sendErrorToast(err);
+        }
+      })
+    );
   }
 
   resetPassword(request: Auth_Models.ResetPassword_Request): Observable<ApiBase_Response<Auth_Models.ResetPassword_ResponseData>> {
     return this.http.post<ApiBase_Response<Auth_Models.ResetPassword_ResponseData>>(`${this.baseUrl}/reset-password`, request).pipe(
-      tap(res => this.currentUser.set(res.data))
+      tap({
+        next: (res) => {
+          this.currentUser.set(res.data);
+        },
+        error: (err: HttpErrorResponse) => {
+          this.toasterService.sendErrorToast(err);
+        }
+      })
     );
   }
 

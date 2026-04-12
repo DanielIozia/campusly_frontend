@@ -6,6 +6,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from '../../../../core/services/auth.service';
 import { ApiBase_Response } from '../../../../core/models/api.interfaces';
 import { CommonModule } from '@angular/common';
+import { finalize } from 'rxjs';
 
 
 @Component({
@@ -25,7 +26,6 @@ export class LoginComponent {
     public showPassword = false;
 
     public form: FormGroup;
-    public errorMessage: string | null = null;
     public isLoading = signal(false);
 
     constructor(
@@ -43,23 +43,17 @@ export class LoginComponent {
         if (!this.form.valid) return;
 
         this.isLoading.set(true);
-        this.errorMessage = null;
-
         const request = {
             email: this.form.get('email')?.value,
             password: this.form.get('password')?.value
         }
-
-        this.authService.login(request).subscribe({
-            next: () => {
+        this.authService.login(request)
+            .pipe(
+                finalize(() => this.isLoading.set(false))
+            )
+            .subscribe(res => {
                 this.router.navigate(['/feed']);
-            },
-            error: (err: HttpErrorResponse) => {
-                this.isLoading.set(false);
-                const apiError = err.error as ApiBase_Response<null>;
-                this.errorMessage = apiError?.error?.message || 'Errore durante il login';
-            }
-        });
+            });
     }
 
     togglePassword(): void {

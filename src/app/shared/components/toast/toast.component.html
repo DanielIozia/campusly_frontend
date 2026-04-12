@@ -1,0 +1,23 @@
+<div class="toast-stack">
+    @for (toast of toasts(); track toast.id) {
+    <div class="toast toast--{{ toast.type }}" [class.toast--removing]="toast.removing" role="alert"
+        aria-live="assertive">
+
+        <mat-icon class="toast__icon">{{ icons[toast.type] }}</mat-icon>
+
+        <div class="toast__body">
+            <p class="toast__title">{{ toast.title }}</p>
+            @if (toast.message) {
+            <p class="toast__message">{{ toast.message }}</p>
+            }
+        </div>
+
+        <button class="toast__close" (click)="dismiss(toast.id)" aria-label="Chiudi notifica">
+            <mat-icon>close</mat-icon>
+        </button>
+
+        <div class="toast__progress" [style.animation-duration.ms]="toast.duration">
+        </div>
+    </div>
+    }
+</div>

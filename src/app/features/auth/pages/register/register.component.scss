@@ -212,6 +212,27 @@
     }
   }
 
+  &__resend-link {
+    font-size: 0.75rem;
+    color: var(--primary-fixed);
+    font-weight: 600;
+    text-decoration: none;
+    text-align: right;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__resend-hint {
+    font-size: 0.8rem;
+    color: var(--on-surface-variant);
+    margin-top: $space-xs;
+    text-align:end;
+    line-height: 1.5;
+  }
+
+
   // Testo hint sotto l'OTP (scadenza + resend)
   &__otp-hint {
     font-size: 0.8rem;

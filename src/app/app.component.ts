@@ -1,17 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AuthService } from './core/services/auth.service';
+import { ToastComponent } from './shared/components/toast/toast.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [
+    ToastComponent,
+    RouterOutlet
+  ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  constructor(private auth: AuthService) {}
+  constructor(
+    private auth: AuthService,
+  ) { }
 
   ngOnInit(): void {
-    this.auth.me();
+    this.auth.me().subscribe();
   }
 }

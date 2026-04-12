@@ -36,6 +36,13 @@
                                         placeholder="mario.rossi@email.it">
                                     <app-form-error [control]="sendEmail.get('email')"></app-form-error>
                                 </div>
+                                <p class="auth-register__resend-hint">
+                                    Problemi con il codice?
+                                    <a class="auth-register__resend-link" (click)="resendOtp()">
+                                        Invia di nuovo
+                                    </a>
+                                </p>
+
                                 <button type="submit" class="btn-primary auth-register__submit"
                                     [ngClass]="{'disabled-button': sendEmail.invalid || loading()}"
                                     [disabled]="sendEmail.invalid || loading()">

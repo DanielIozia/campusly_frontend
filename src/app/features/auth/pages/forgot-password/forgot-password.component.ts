@@ -5,9 +5,9 @@ import { FormErrorComponent } from '../../../../shared/components/form-error/for
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../../core/services/auth.service';
 import * as Auth_Models from '../../../../core/models/auth.models';
-import { OtpInputComponent } from '../../../otp-input/otp-input.component';
+import { OtpInputComponent } from '../../../../shared/components/otp-input/otp-input.component';
 import { FormErrorService } from '../../../../core/services/form-error.service';
-
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
     selector: 'app-forgot-password',
@@ -16,7 +16,8 @@ import { FormErrorService } from '../../../../core/services/form-error.service';
         CommonModule,
         ReactiveFormsModule,
         FormErrorComponent,
-        OtpInputComponent
+        OtpInputComponent,
+        MatIconModule
     ],
     templateUrl: './forgot-password.component.html',
     styleUrls: ['./forgot-password.component.scss']

@@ -2,16 +2,18 @@
 ::ng-deep {
     .ng-otp-input-wrapper {
         display: flex !important;
-        gap: 10px !important;
+        gap: clamp(6px, 2vw, 12px) !important;
         justify-content: center;
 
         .otp-input {
-            width: 48px !important;
-            height: 56px !important;
+
+            width: clamp(36px, 10vw, 52px) !important;
+            height: clamp(44px, 12vw, 60px) !important;
             border-radius: 12px !important;
             border: 1.5px solid var(--outline, #d0d5dd) !important;
             background-color: var(--surface-container, #f9fafb) !important;
-            font-size: 1.5rem !important;
+            // Font fluido: 1.1rem su mobile piccolo → 1.4rem su tablet
+            font-size: clamp(1.1rem, 3.5vw, 1.4rem) !important;
             font-weight: 700 !important;
             color: var(--on-surface) !important;
             text-align: center !important;
@@ -26,11 +28,16 @@
                 background-color: #ffffff !important;
             }
 
-            // Stato filled (ha un valore) — leggero highlight
             &:not(:placeholder-shown) {
                 border-color: color-mix(in srgb, var(--primary) 50%, transparent) !important;
                 background-color: color-mix(in srgb, var(--primary) 5%, #ffffff) !important;
             }
         }
     }
+}
+
+// Stato disabilitato — applicato sul wrapper host
+.otp--disabled {
+    opacity: 0.5;
+    pointer-events: none;
 }

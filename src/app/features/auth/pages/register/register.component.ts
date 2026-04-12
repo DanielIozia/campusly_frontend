@@ -6,7 +6,7 @@ import { RegistrationService } from '../../../../core/services/registration.serv
 import { CommonModule } from '@angular/common';
 import { FormErrorService } from '../../../../core/services/form-error.service';
 import * as Registration_Models from '../../../../core/models/register.models';
-import { OtpInputComponent } from '../../../otp-input/otp-input.component';
+import { OtpInputComponent } from '../../../../shared/components/otp-input/otp-input.component';
 import { finalize } from 'rxjs';
 
 
@@ -112,6 +112,9 @@ export class RegisterComponent {
     )
     .subscribe({
       next: () => {
+        if(this.showModal() !== 'otp_code') {
+          this.showModal.set('otp_code');
+        }
         //! show toaster "OTP resent"
       },
       error: (err) => { } //! show toaster
