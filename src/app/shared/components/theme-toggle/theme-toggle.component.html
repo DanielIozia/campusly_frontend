@@ -1,0 +1,10 @@
+<button
+  class="theme-toggle"
+  (click)="theme.toggle()"
+  [attr.aria-label]="(theme.currentTheme$ | async) === 'dark' ? 'Passa a tema chiaro' : 'Passa a tema scuro'"
+  [class.is-dark]="(theme.currentTheme$ | async) === 'dark'"
+>
+  <span class="material-symbols-outlined toggle-icon">
+    {{ (theme.currentTheme$ | async) === 'dark' ? 'light_mode' : 'dark_mode' }}
+  </span>
+</button>

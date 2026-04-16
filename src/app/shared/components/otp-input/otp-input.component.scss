@@ -25,12 +25,12 @@
             &:focus {
                 border-color: var(--primary) !important;
                 box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 18%, transparent) !important;
-                background-color: #ffffff !important;
+                background-color: var(--surface-container-lowest) !important;
             }
 
             &:not(:placeholder-shown) {
                 border-color: color-mix(in srgb, var(--primary) 50%, transparent) !important;
-                background-color: color-mix(in srgb, var(--primary) 5%, #ffffff) !important;
+                background-color: color-mix(in srgb, var(--primary) 5%, var(--surface-container-lowest)) !important;
             }
         }
     }

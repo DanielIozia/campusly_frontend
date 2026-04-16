@@ -58,6 +58,16 @@
     position: relative;
   }
 
+  &__theme-btn {
+    .material-symbols-outlined {
+      transition: transform 0.4s ease;
+    }
+
+    &:hover .material-symbols-outlined {
+      transform: rotate(20deg);
+    }
+  }
+
   &__notif-dot {
     position: absolute;
     top: 8px;

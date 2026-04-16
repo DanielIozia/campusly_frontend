@@ -1,0 +1,433 @@
+@use 'custom' as *;
+
+:host {
+  display: block;
+  height: 100%;
+}
+
+// ── BASE ──────────────────────────────────────────────────
+.campusly-post {
+  border-radius: $radius-xl;
+  overflow: hidden;
+  box-shadow: none;
+  height: 100%;
+
+  @include tablet {
+    border-radius: $radius-2xl;
+  }
+}
+
+// ════════════════════════════════════════════════════════
+// MEDIA CARD
+// ════════════════════════════════════════════════════════
+.post--media {
+  background: var(--surface-container-lowest);
+  display: flex;
+  flex-direction: column;
+}
+
+.post-media-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+}
+
+// Carousel
+.post-carousel {
+  position: absolute;
+  inset: 0;
+}
+
+.carousel-track {
+  display: flex;
+  height: 100%;
+  /* width e transform gestiti dinamicamente dal componente */
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+.carousel-image {
+  /* width gestita dinamicamente: 100% / N immagini */
+  flex-shrink: 0;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+// Gradient mask — solo top (per l'header overlay)
+.post-mask {
+  position: absolute;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  z-index: 1;
+
+  &--top {
+    top: 0;
+    height: 40%;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.55) 0%, transparent 100%);
+  }
+}
+
+// Sezione azioni sotto l'immagine
+.post-actions-section {
+  padding: $space-xs $space-sm $space-sm;
+  background: var(--surface-container-lowest);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.post-caption {
+  font-family: $font-body;
+  font-size: 0.875rem;
+  color: var(--on-surface);
+  margin: 0 $space-xs;
+  line-height: 1.5;
+
+  strong {
+    font-weight: 700;
+  }
+}
+
+// Overlays (absolutely positioned over image)
+.post-overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 2;
+
+  &--top {
+    top: $space-md;
+    padding: 0 $space-md;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $space-sm;
+  }
+
+  &--bottom {
+    bottom: 0;
+    padding: $space-sm $space-md $space-md;
+    display: flex;
+    flex-direction: column;
+    gap: $space-xs;
+  }
+}
+
+// Glass user chip on image
+.post-user-chip {
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+  padding: 6px $space-sm;
+  border-radius: $radius-full;
+  background: rgba(0, 0, 0, 0.32);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  max-width: calc(100% - 52px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.post-avatar-sm {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.post-chip-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.post-chip-name {
+  font-family: $font-headline;
+  font-weight: 700;
+  font-size: 0.8rem;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+}
+
+.post-chip-location {
+  font-family: $font-body;
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.65);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+}
+
+// Actions row on image
+.post-actions-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.post-left-actions {
+  display: flex;
+  align-items: center;
+}
+
+// Icon button (default: on surface)
+.post-icon-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: $space-xs;
+  border-radius: $radius-full;
+  color: var(--on-surface);
+  transition: transform 0.15s ease, color 0.2s ease;
+  min-width: 44px;
+  min-height: 44px;
+  justify-content: center;
+
+  .material-symbols-outlined { font-size: 24px; }
+
+  &:active { transform: scale(0.82); }
+
+  // Overlay variant (always white on image)
+  &--overlay {
+    color: rgba(255, 255, 255, 0.92);
+
+    &:hover { background: rgba(255, 255, 255, 0.12); }
+
+    &.liked { color: var(--secondary-fixed, #ffafa8); }
+  }
+
+  &.liked { color: var(--secondary); }
+}
+
+.post-action-count {
+  font-family: $font-label;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.88);
+  line-height: 1;
+
+  &--surface { color: var(--on-surface-variant); }
+}
+
+
+// Carousel nav buttons
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: none;
+  border-radius: $radius-full;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  z-index: 3;
+
+  &--prev { left: $space-sm; }
+  &--next { right: $space-sm; }
+
+  &:hover { background: rgba(0, 0, 0, 0.5); }
+
+  .material-symbols-outlined { font-size: 20px; }
+}
+
+.carousel-dots {
+  position: absolute;
+  top: $space-sm;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: $space-xs;
+  z-index: 3;
+}
+
+.carousel-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: $radius-full;
+  background: rgba(255, 255, 255, 0.38);
+  cursor: pointer;
+  transition: all 0.25s ease;
+
+  &.active {
+    width: 16px;
+    background: #fff;
+  }
+}
+
+// Comment bar (below media card)
+.post-comment-bar {
+  display: flex;
+  align-items: center;
+  margin-bottom: $space-sm;
+  gap: $space-sm;
+  padding: $space-sm $space-md;
+  background: var(--surface-container-low);
+  border-top: 1px solid var(--outline-variant);
+
+  &--inset {
+    border-radius: $radius-xl;
+    margin-top: $space-xs;
+    border-top: 1px solid var(--outline-variant);
+    border-bottom: none;
+  }
+}
+
+.comment-input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--on-surface);
+  font-family: $font-body;
+  font-size: 0.875rem;
+
+  &::placeholder { color: var(--outline-variant); }
+}
+
+.comment-send {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--primary);
+  font-family: $font-label;
+  font-weight: 700;
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding: 0;
+  white-space: nowrap;
+
+  &:hover { color: var(--primary-dim); }
+}
+
+// Small anon avatar
+.anon-avatar--sm {
+  width: 28px !important;
+  height: 28px !important;
+  flex-shrink: 0;
+
+  .material-symbols-outlined { font-size: 14px; }
+}
+
+// ════════════════════════════════════════════════════════
+// TEXT CARD
+// ════════════════════════════════════════════════════════
+.post--text {
+  background: var(--surface-container-low);
+  border-left: 4px solid var(--primary);
+}
+
+.post-text-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.post-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $space-sm $space-md;
+}
+
+.post-user-info {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+}
+
+.post-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--surface-container);
+  border: 2px solid var(--outline-variant);
+  flex-shrink: 0;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.post-text-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.post-author-row {
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+  flex-wrap: wrap;
+}
+
+.post-author-name {
+  font-family: $font-headline;
+  font-weight: 700;
+  font-size: 0.9375rem;
+  color: var(--on-surface);
+  line-height: 1.2;
+}
+
+.post-location {
+  font-family: $font-body;
+  font-size: 0.75rem;
+  color: var(--on-surface-variant);
+  line-height: 1.2;
+}
+
+.post-text-body {
+  flex: 1;
+  padding: $space-sm $space-md $space-md;
+  cursor: pointer;
+}
+
+.post-text-content {
+  color: var(--on-surface);
+  margin: 0;
+  line-height: 1.65;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-size: 0.9375rem;
+}
+
+.post-text-footer {
+  padding: 0 $space-md $space-sm;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.time-ago {
+  color: var(--outline);
+  display: block;
+}

@@ -10,6 +10,61 @@
   }
 }
 
+.disabled-button {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.create-page {
+  &__locked {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: $space-md;
+    padding: $space-3xl $space-xl;
+    text-align: center;
+    border-radius: $radius-lg;
+  }
+
+  &__locked-title {
+    font-weight: 700;
+    font-size: 1.125rem;
+    color: var(--on-surface);
+    margin: 0;
+  }
+
+  &__locked-desc {
+    font-size: 0.875rem;
+    color: var(--on-surface-variant);
+    margin: 0;
+  }
+}
+
+.create-canvas {
+  &__upload {
+    display: flex;
+    align-items: center;
+    gap: $space-sm;
+    padding: $space-md;
+    border-radius: $radius-default;
+    background-color: var(--surface-container);
+    cursor: pointer;
+    font-size: 0.875rem;
+    color: var(--on-surface-variant);
+    transition: background 0.15s ease;
+
+    &:hover {
+      background-color: var(--surface-container-high);
+    }
+
+    .material-symbols-outlined {
+      color: var(--primary);
+    }
+  }
+}
+
 .create-canvas {
   padding: $space-lg;
   display: flex;

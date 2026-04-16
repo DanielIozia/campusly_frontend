@@ -15,12 +15,13 @@ export interface Login_Request {
     email: string;
     password: string;
 }
-export type UserRole = 'CAMPUSLY_USER'; //! aggiungere altri ruoli in futuro 
+export type UserRole = 'CAMPUSLY_USER'; //! aggiungere altri ruoli in futuro
 export interface Login_Response {
     id: string,
     username: string,
     email: string,
-    role: UserRole
+    role: UserRole,
+    universityId: string | null
 }
 export interface Login_ResponseData extends ApiBase_Response<Login_Response> { }
 

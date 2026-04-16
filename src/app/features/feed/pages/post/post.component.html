@@ -1,0 +1,176 @@
+@if (post) {
+<article class="campusly-post" [class.post--media]="!isTextOnly" [class.post--text]="isTextOnly">
+
+    <!-- ══════════ MEDIA CARD ══════════ -->
+    @if (!isTextOnly) {
+    <div class="post-media-wrap">
+
+        <div class="post-carousel">
+            <div class="carousel-track"
+                [style.width]="trackStyle.width"
+                [style.transform]="trackStyle.transform">
+                @for (img of displayImages; track img) {
+                <img [src]="img" loading="lazy" class="carousel-image" alt=""
+                    [style.width]="slideWidth">
+                }
+            </div>
+        </div>
+
+        <div class="post-mask post-mask--top"></div>
+
+        <!-- Top overlay: user info -->
+        <div class="post-overlay post-overlay--top">
+            <div class="post-user-chip">
+                @if (post.isAnonymous) {
+                <div class="anon-avatar anon-avatar--sm">
+                    <mat-icon style="font-size: 16px; color: #fff; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;">visibility_off</mat-icon>
+                </div>
+                } @else {
+                <div class="post-avatar-sm">
+                    <mat-icon style="font-size: 16px; color: #fff; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;">person</mat-icon>
+                </div>
+                }
+                <div class="post-chip-text">
+                    <span class="post-chip-name">{{ authorLabel }}</span>
+                    @if (categoryLabel) {
+                    <span class="post-chip-location">{{ categoryLabel }}</span>
+                    }
+                </div>
+            </div>
+            <button class="post-icon-btn post-icon-btn--overlay" aria-label="Opzioni">
+                <span class="material-symbols-outlined">more_horiz</span>
+            </button>
+        </div>
+
+        <!-- Carousel nav -->
+        @if (displayImages.length > 1) {
+        @if (currentIndex > 0) {
+        <button class="carousel-btn carousel-btn--prev" (click)="prevImage($event)" aria-label="Precedente">
+            <span class="material-symbols-outlined">chevron_left</span>
+        </button>
+        }
+        @if (currentIndex < displayImages.length - 1) {
+        <button class="carousel-btn carousel-btn--next" (click)="nextImage($event)" aria-label="Successiva">
+            <span class="material-symbols-outlined">chevron_right</span>
+        </button>
+        }
+        <div class="carousel-dots">
+            @for (img of displayImages; track $index) {
+            <span class="carousel-dot" [class.active]="$index === currentIndex" (click)="goToImage($index)"></span>
+            }
+        </div>
+        }
+    </div>
+
+    <!-- Actions + caption — FUORI dall'immagine, sul post -->
+    <div class="post-actions-section">
+        <div class="post-actions-row">
+            <div class="post-left-actions">
+                <button class="post-icon-btn" [class.liked]="isLiked()" (click)="toggleLike()" aria-label="Mi piace">
+                    <span class="material-symbols-outlined" [class.material-symbols-filled]="isLiked()">favorite</span>
+                    <span class="post-action-count post-action-count--surface">{{ post.likeCount | number }}</span>
+                </button>
+                <button class="post-icon-btn" aria-label="Commenti">
+                    <span class="material-symbols-outlined">chat_bubble</span>
+                    <span class="post-action-count post-action-count--surface">{{ post.commentCount }}</span>
+                </button>
+                <button class="post-icon-btn" aria-label="Condividi">
+                    <span class="material-symbols-outlined">send</span>
+                </button>
+            </div>
+            <button class="post-icon-btn" [class.saved]="isSaved()" (click)="toggleSave()" aria-label="Salva">
+                <span class="material-symbols-outlined" [class.material-symbols-filled]="isSaved()">bookmark</span>
+            </button>
+        </div>
+        @if (post.content) {
+        <p class="post-caption">
+            <strong>{{ authorLabel }}</strong>
+            {{ post.content.length > 120 ? (post.content | slice:0:120) + '…' : post.content }}
+        </p>
+        }
+        <span class="time-ago label-md">{{ timeAgo }}</span>
+
+        <div class="post-comment-bar post-comment-bar--inset">
+            <div class="anon-avatar anon-avatar--sm">
+                <span class="material-symbols-outlined">visibility_off</span>
+            </div>
+            <input type="text" class="comment-input body-md" placeholder="Aggiungi un commento…"
+                [(ngModel)]="commentText">
+            @if (commentText.length > 0) {
+            <button class="comment-send label-md">Pubblica</button>
+            }
+        </div>
+    </div>
+    }
+
+    <!-- ══════════ TEXT CARD ══════════ -->
+    @if (isTextOnly) {
+    <div class="post-text-card">
+        <header class="post-header">
+            <div class="post-user-info">
+                @if (post.isAnonymous) {
+                <div class="anon-avatar">
+                    <span class="material-symbols-outlined">visibility_off</span>
+                </div>
+                } @else {
+                <div class="post-avatar">
+                    <span class="material-symbols-outlined"
+                        style="font-size: 20px; color: var(--on-surface-variant);">person</span>
+                </div>
+                }
+                <div class="post-text-meta">
+                    <div class="post-author-row">
+                        <span class="post-author-name">{{ authorLabel }}</span>
+                        @if (categoryLabel) {
+                        <span class="chip chip-inactive" style="font-size: 0.625rem; padding: 2px 8px;">
+                            {{ categoryLabel }}
+                        </span>
+                        }
+                    </div>
+                    <span class="post-location">{{ timeAgo }}</span>
+                </div>
+            </div>
+            <button class="post-icon-btn" aria-label="Opzioni">
+                <span class="material-symbols-outlined">more_horiz</span>
+            </button>
+        </header>
+
+        <div class="post-text-body">
+            <p class="post-text-content body-lg">{{ post.content }}</p>
+        </div>
+
+        <footer class="post-text-footer">
+            <div class="post-actions-row">
+                <div class="post-left-actions">
+                    <button class="post-icon-btn" [class.liked]="isLiked()" (click)="toggleLike()">
+                        <span class="material-symbols-outlined" [class.material-symbols-filled]="isLiked()">favorite</span>
+                        <span class="post-action-count post-action-count--surface">{{ post.likeCount | number }}</span>
+                    </button>
+                    <button class="post-icon-btn">
+                        <span class="material-symbols-outlined">chat_bubble</span>
+                        <span class="post-action-count post-action-count--surface">{{ post.commentCount }}</span>
+                    </button>
+                    <button class="post-icon-btn">
+                        <span class="material-symbols-outlined">send</span>
+                    </button>
+                </div>
+                <button class="post-icon-btn" [class.saved]="isSaved()" (click)="toggleSave()">
+                    <span class="material-symbols-outlined" [class.material-symbols-filled]="isSaved()">bookmark</span>
+                </button>
+            </div>
+            <div class="post-comment-bar post-comment-bar--inset">
+                <div class="anon-avatar anon-avatar--sm">
+                    <span class="material-symbols-outlined">visibility_off</span>
+                </div>
+                <input type="text" class="comment-input body-md" placeholder="Aggiungi un commento…"
+                    [(ngModel)]="commentText">
+                @if (commentText.length > 0) {
+                <button class="comment-send label-md">Pubblica</button>
+                }
+            </div>
+        </footer>
+    </div>
+    }
+
+</article>
+}

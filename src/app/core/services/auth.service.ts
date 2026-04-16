@@ -32,6 +32,7 @@ export class AuthService {
   isLoggedIn = computed(() => this.currentUser() !== null);
   isAuthChecked = computed(() => this.authChecked());
   user = computed(() => this.currentUser());
+  canCreatePost = computed(() => !!this.currentUser()?.data?.universityId);
 
   constructor(private http: HttpClient) { }
 
@@ -55,11 +56,10 @@ export class AuthService {
         next: (res) => {
           this.currentUser.set(res.data);
           this.authChecked.set(true);
-
         },
-        error: (err: HttpErrorResponse) => {
+        error: () => {
           this.currentUser.set(null);
-          this.authChecked.set(false);
+          this.authChecked.set(true);
         },
       })
     );
@@ -108,6 +108,13 @@ export class AuthService {
 
 
 
+
+  updateUniversityId(universityId: string): void {
+    const current = this.currentUser();
+    if (current?.data) {
+      this.currentUser.set({ ...current, data: { ...current.data, universityId } });
+    }
+  }
 
   // ===================================
   //          PRIVATE METHODS

@@ -1,0 +1,39 @@
+@use 'custom' as *;
+
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: $radius-full;
+  background: var(--surface-container-low);
+  border: 1px solid var(--outline-variant);
+  color: var(--on-surface-variant);
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: var(--surface-container);
+    color: var(--on-surface);
+    transform: rotate(15deg);
+  }
+
+  &:active {
+    transform: scale(0.9);
+  }
+
+  &.is-dark {
+    background: var(--surface-container-high);
+    color: var(--primary-fixed);
+
+    &:hover {
+      background: var(--surface-container-highest);
+    }
+  }
+
+  .toggle-icon {
+    font-size: 22px;
+    transition: transform 0.3s ease;
+  }
+}

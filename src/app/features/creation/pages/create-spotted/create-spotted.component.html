@@ -4,14 +4,20 @@
     <h2 class="display-sm">Nuovo Spotted</h2>
   </div>
 
+  @if (!canCreate) {
+  <div class="create-page__locked card-surface">
+    <span class="material-symbols-outlined" style="font-size: 40px; color: var(--on-surface-variant);">lock</span>
+    <p class="create-page__locked-title">Accesso limitato</p>
+    <p class="create-page__locked-desc">Associa la tua università per creare e pubblicare spotted.</p>
+  </div>
+  } @else {
+
   <!-- Creation Canvas -->
   <div class="create-canvas card-surface">
     <form [formGroup]="form">
       <div class="create-canvas__textarea-wrap">
-        <textarea formControlName="content"
-                  class="create-canvas__textarea"
-                  placeholder="Chi hai visto oggi in biblioteca?"
-                  rows="6"></textarea>
+        <textarea formControlName="content" class="create-canvas__textarea"
+          placeholder="Chi hai visto oggi in biblioteca?" rows="6"></textarea>
         <div class="create-canvas__counter">
           <span [class.create-canvas__counter--limit]="charCount > maxChars">{{ charCount }}</span> / {{ maxChars }}
         </div>
@@ -23,17 +29,25 @@
       <label class="create-canvas__label label-md">CATEGORIA</label>
       <div class="create-canvas__chips">
         @for (cat of categories; track cat.label; let i = $index) {
-          <button class="chip"
-                  [class.chip-active]="cat.active"
-                  [class.chip-inactive]="!cat.active"
-                  (click)="selectCategory(i)">
-            @if (cat.icon) {
-              <span class="material-symbols-outlined" style="font-size: 18px;">{{ cat.icon }}</span>
-            }
-            {{ cat.label }}
-          </button>
+        <button class="chip" [class.chip-active]="cat.active" [class.chip-inactive]="!cat.active"
+          (click)="selectCategory(i)">
+          @if (cat.icon) {
+          <span class="material-symbols-outlined" style="font-size: 18px;">{{ cat.icon }}</span>
+          }
+          {{ cat.label }}
+        </button>
         }
       </div>
+    </div>
+
+    <!-- Image Upload -->
+    <div class="create-canvas__section">
+      <label class="create-canvas__label label-md">IMMAGINI (opzionale)</label>
+      <label class="create-canvas__upload">
+        <span class="material-symbols-outlined">add_photo_alternate</span>
+        <span>{{ selectedImages.length > 0 ? selectedImages.length + ' file selezionati' : 'Aggiungi immagini' }}</span>
+        <input type="file" accept="image/*" multiple style="display: none;" (change)="onImagesSelected($event)">
+      </label>
     </div>
 
     <!-- Anonymous Toggle -->
@@ -47,7 +61,8 @@
           <p class="create-canvas__toggle-desc">L'identità 'Spotted' verrà nascosta</p>
         </div>
       </div>
-      <button class="create-canvas__toggle-switch" [class.create-canvas__toggle-switch--on]="isAnonymous" (click)="toggleAnonymous()">
+      <button class="create-canvas__toggle-switch" [class.create-canvas__toggle-switch--on]="isAnonymous"
+        (click)="toggleAnonymous()">
         <div class="create-canvas__toggle-knob"></div>
       </button>
     </div>
@@ -68,8 +83,12 @@
       </div>
     </div>
 
-    <button class="btn-primary create-canvas__publish" (click)="publish()">
-      Pubblica Spotted
+    <button class="btn-primary create-canvas__publish" (click)="publish()"
+      [disabled]="loading() || form.invalid"
+      [class.disabled-button]="loading() || form.invalid">
+      {{ loading() ? 'Pubblicazione...' : 'Pubblica Spotted' }}
     </button>
   </div>
+
+  }
 </div>

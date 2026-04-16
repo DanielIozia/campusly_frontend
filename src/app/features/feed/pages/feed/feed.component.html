@@ -1,95 +1,23 @@
-<div class="feed-page">
-  <!-- STORY ROW -->
-  <section class="story-row no-scrollbar">
-    @for (story of stories; track story.name) {
-      <div class="story-item">
-        <div class="story-avatar" [class.story-avatar--active]="story.hasStory">
-          <div class="story-avatar__inner">
-            <div class="story-avatar__placeholder">
-              <span class="material-symbols-outlined">person</span>
-            </div>
-          </div>
-        </div>
-        <span class="story-name">{{ story.name }}</span>
-      </div>
-    }
-  </section>
-
-  <!-- CATEGORY TABS -->
-  <nav class="category-tabs no-scrollbar">
-    @for (cat of categories; track cat.label; let i = $index) {
-      <button class="chip"
-              [class.chip-active]="cat.active"
-              [class.chip-inactive]="!cat.active"
-              (click)="selectCategory(i)">
-        {{ cat.label }}
-      </button>
-    }
-  </nav>
-
-  <!-- FEED POSTS -->
-  <div class="feed-posts">
-    @for (post of posts; track post.id) {
-      <article class="post-card card">
-        <!-- Post Header -->
-        <header class="post-card__header">
-          <div class="post-card__author">
-            @if (post.isAnonymous) {
-              <div class="anon-avatar">
-                <span class="material-symbols-outlined text-on-primary" style="font-variation-settings: 'FILL' 1;">visibility</span>
-              </div>
-            } @else {
-              <div class="post-card__avatar-placeholder">
-                <span class="material-symbols-outlined">person</span>
-              </div>
-            }
-            <div>
-              <div class="post-card__author-row">
-                <p class="post-card__author-name font-headline">{{ post.author }}</p>
-                @if (post.isErasmus) {
-                  <span class="erasmus-badge">
-                    <span class="material-symbols-outlined" style="font-size: 12px; font-variation-settings: 'FILL' 1;">public</span>
-                    Erasmus
-                  </span>
-                }
-              </div>
-              <p class="post-card__meta">{{ post.time }} • {{ post.location }}</p>
-            </div>
-          </div>
-          @if (post.badge) {
-            <span class="post-card__badge">😤 {{ post.badge }}</span>
-          } @else {
-            <button class="post-card__more">
-              <span class="material-symbols-outlined">more_horiz</span>
-            </button>
-          }
-        </header>
-
-        <!-- Post Content -->
-        <div class="post-card__body">
-          @if (post.title) {
-            <h3 class="post-card__title font-headline">{{ post.title }}</h3>
-          }
-          <p class="post-card__content">{{ post.content }}</p>
-        </div>
-
-        <!-- Post Footer -->
-        <footer class="post-card__footer">
-          <div class="post-card__actions">
-            <button class="post-card__action" [class.post-card__action--liked]="post.liked">
-              <span class="material-symbols-outlined" [style.fontVariationSettings]="post.liked ? '\'FILL\' 1' : '\'FILL\' 0'">favorite</span>
-              <span>{{ post.likes }}</span>
-            </button>
-            <button class="post-card__action">
-              <span class="material-symbols-outlined">chat_bubble</span>
-              <span>{{ post.comments }}</span>
-            </button>
-          </div>
-          <button class="post-card__action">
-            <span class="material-symbols-outlined">{{ post.liked ? 'share' : 'bookmark' }}</span>
-          </button>
-        </footer>
-      </article>
-    }
-  </div>
+@if (loading()) {
+<div class="feed-loading">
+  @for (_ of [1,2,3]; track $index) {
+  <div class="feed-skeleton"></div>
+  }
 </div>
+} @else if (posts().length > 0) {
+<div class="campusly-feed">
+  @for (post of posts(); track post.id) {
+  <div class="feed-item">
+    <app-post [post]="post"></app-post>
+  </div>
+  }
+</div>
+} @else {
+<div class="empty-state">
+  <div class="empty-state__icon-wrap">
+    <span class="material-symbols-outlined empty-state__icon">newspaper</span>
+  </div>
+  <p class="headline-md empty-state__title">Nessun post ancora</p>
+  <p class="body-md empty-state__subtitle">Segui più utenti per vedere i loro contenuti qui.</p>
+</div>
+}

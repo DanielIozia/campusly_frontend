@@ -1,0 +1,209 @@
+@use 'custom' as *;
+
+.univ-modal {
+    &__backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: $space-md;
+        animation: fade-in 0.2s ease;
+    }
+
+    &__card {
+        width: 100%;
+        max-width: 480px;
+        display: flex;
+        flex-direction: column;
+        padding: $space-xl;
+        gap: $space-lg;
+        background-color: var(--surface-container-lowest);
+        border-radius: $radius-xl;
+        box-shadow: $shadow-soft;
+        animation: slide-up 0.3s ease;
+    }
+
+    &__header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: $space-sm;
+    }
+
+    &__logo-icon {
+        width: 64px;
+        height: 64px;
+        border-radius: $radius-lg;
+        background: var(--primary-gradient);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: $shadow-primary;
+    }
+
+    &__title {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: var(--on-surface);
+        margin: 0;
+    }
+
+    &__desc {
+        font-size: 0.875rem;
+        color: var(--on-surface-variant);
+        line-height: 1.55;
+        margin: 0;
+    }
+
+    &__search {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    &__search-icon {
+        position: absolute;
+        left: $space-md;
+        color: var(--on-surface-variant);
+        font-size: 20px;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    &__search-input {
+        padding-left: 48px !important;
+        border-radius: $radius-full !important;
+    }
+
+    &__list {
+        display: flex;
+        flex-direction: column;
+        gap: $space-xs;
+        min-height: 100px;
+        max-height: 220px;
+        overflow-y: auto;
+
+        &::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: var(--outline-variant);
+            border-radius: $radius-full;
+        }
+    }
+
+    &__loading {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: $space-xl;
+        color: var(--primary);
+    }
+
+    &__spin {
+        animation: spin 1s linear infinite;
+    }
+
+    &__empty {
+        text-align: center;
+        color: var(--on-surface-variant);
+        padding: $space-xl;
+        font-size: 0.875rem;
+        margin: 0;
+    }
+
+    &__item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: $space-md;
+        border-radius: $radius-default;
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        width: 100%;
+        text-align: left;
+        transition: background 0.15s ease;
+        color: var(--on-surface);
+
+        &:hover {
+            background: var(--surface-container-low);
+        }
+
+        &--selected {
+            background: var(--nav-active-bg);
+
+            .univ-modal__item-name {
+                color: var(--nav-active-color);
+                font-weight: 700;
+            }
+        }
+    }
+
+    &__item-info {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    &__item-name {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--on-surface);
+    }
+
+    &__item-meta {
+        font-size: 0.75rem;
+        color: var(--on-surface-variant);
+    }
+
+    &__item-check {
+        color: var(--nav-active-color);
+        font-size: 20px;
+        flex-shrink: 0;
+    }
+
+    &__actions {
+        display: flex;
+        flex-direction: column;
+        gap: $space-sm;
+    }
+
+    &__btn-confirm,
+    &__btn-skip {
+        width: 100%;
+        font-size: 0.875rem;
+    }
+}
+
+.disabled-button {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+@keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slide-up {
+    from { transform: translateY(24px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}

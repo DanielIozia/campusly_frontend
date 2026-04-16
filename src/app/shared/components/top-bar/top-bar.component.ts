@@ -1,14 +1,16 @@
 import { Component, Input, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../../../core/services/auth.service';
+import { ThemeService } from '../../../core/services/theme.service';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { ConfirmDialogData } from '../confirm-dialog/confirm-dialog.models';
 
 @Component({
   selector: 'app-top-bar',
   standalone: true,
-  imports: [RouterLink],
+  imports: [CommonModule, RouterLink],
   templateUrl: './top-bar.component.html',
   styleUrl: './top-bar.component.scss'
 })
@@ -19,6 +21,7 @@ export class TopBarComponent {
 
   private dialog = inject(MatDialog);
   private authService = inject(AuthService);
+  protected themeService = inject(ThemeService);
 
   onLogout(): void {
     this.dialog

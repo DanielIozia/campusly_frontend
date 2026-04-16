@@ -3,10 +3,13 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import { Router, RouterLink } from '@angular/router';
 import { FormErrorComponent } from '../../../../shared/components/form-error/form-error.component';
 import { RegistrationService } from '../../../../core/services/registration.service';
+import { UniversityService } from '../../../../core/services/university.service';
+import { AuthService } from '../../../../core/services/auth.service';
 import { CommonModule } from '@angular/common';
 import { FormErrorService } from '../../../../core/services/form-error.service';
 import * as Registration_Models from '../../../../core/models/register.models';
 import { OtpInputComponent } from '../../../../shared/components/otp-input/otp-input.component';
+import { UniversityModalComponent } from '../../../../shared/components/university-modal/university-modal.component';
 import { finalize } from 'rxjs';
 
 
@@ -19,6 +22,7 @@ import { finalize } from 'rxjs';
     RouterLink,
     FormErrorComponent,
     OtpInputComponent,
+    UniversityModalComponent,
   ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
@@ -26,12 +30,13 @@ import { finalize } from 'rxjs';
 export class RegisterComponent {
 
   public showModal = signal<views>('send_email');
+  public showUniversityModal = signal(false);
 
   public sendEmail: FormGroup;
   public otpCode: FormGroup;
   public info: FormGroup;
   public showPassword = false;
-  public showConfirmPassword = false
+  public showConfirmPassword = false;
   public loading = signal(false);
 
   days = Array.from({ length: 31 }, (_, i) => i + 1);
@@ -54,6 +59,8 @@ export class RegisterComponent {
   constructor(
     private fb: FormBuilder,
     private registrationService: RegistrationService,
+    private universityService: UniversityService,
+    private authService: AuthService,
     private formErrorService: FormErrorService,
     private router: Router,
   ) {
@@ -95,7 +102,7 @@ export class RegisterComponent {
       next: () => {
         this.showModal.set('otp_code');
       },
-      error: (err) => { } //! show toaster
+      error: () => {}
     });
   }
 
@@ -115,9 +122,8 @@ export class RegisterComponent {
         if(this.showModal() !== 'otp_code') {
           this.showModal.set('otp_code');
         }
-        //! show toaster "OTP resent"
       },
-      error: (err) => { } //! show toaster
+      error: () => {}
     });
   }
 
@@ -138,13 +144,11 @@ export class RegisterComponent {
       next: () => {
         this.showModal.set('personal_data');
       },
-      error: (err) => { } //! show toaster }
+      error: () => {}
     });
-
   }
 
   onPersonalDataSubmit(): void {
-
     if (!this.info.valid) return;
 
     this.loading.set(true);
@@ -168,10 +172,29 @@ export class RegisterComponent {
     )
     .subscribe({
       next: () => {
+        this.showUniversityModal.set(true);
+      },
+      error: () => {}
+    });
+  }
+
+  onUniversitySelected(universityId: string): void {
+    this.universityService.setUserUniversity(universityId).subscribe({
+      next: () => {
+        this.authService.updateUniversityId(universityId);
+        this.showUniversityModal.set(false);
         this.router.navigate(['/feed']);
       },
-      error: (err) => { } //! show toaster }
+      error: () => {
+        this.showUniversityModal.set(false);
+        this.router.navigate(['/feed']);
+      }
     });
+  }
+
+  onUniversitySkipped(): void {
+    this.showUniversityModal.set(false);
+    this.router.navigate(['/feed']);
   }
 
   goToLogin(): void {
@@ -179,5 +202,4 @@ export class RegisterComponent {
   }
 }
 
-// INTERFACES AND TYPES
 type views = 'send_email' | 'otp_code' | 'personal_data';

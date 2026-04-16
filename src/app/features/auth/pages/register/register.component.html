@@ -1,3 +1,8 @@
+@if (showUniversityModal()) {
+<app-university-modal (universitySelected)="onUniversitySelected($event)" (skipped)="onUniversitySkipped()">
+</app-university-modal>
+}
+
 <main class="auth-page">
     <div class="auth-page__aurora"></div>
     <div class="container">
@@ -25,6 +30,12 @@
                             <p class="auth-register__desc">
                                 Sopravvivere alla sessione è meglio se lo si fa insieme.
                             </p>
+                            <p class="auth-register__resend-hint">
+                                Problemi con il codice?
+                                <a class="auth-register__resend-link" (click)="resendOtp()">
+                                    Invia di nuovo
+                                </a>
+                            </p>
                         </header>
 
                         <!-- 1 - SEND EMAIL FORM -->
@@ -36,12 +47,6 @@
                                         placeholder="mario.rossi@email.it">
                                     <app-form-error [control]="sendEmail.get('email')"></app-form-error>
                                 </div>
-                                <p class="auth-register__resend-hint">
-                                    Problemi con il codice?
-                                    <a class="auth-register__resend-link" (click)="resendOtp()">
-                                        Invia di nuovo
-                                    </a>
-                                </p>
 
                                 <button type="submit" class="btn-primary auth-register__submit"
                                     [ngClass]="{'disabled-button': sendEmail.invalid || loading()}"

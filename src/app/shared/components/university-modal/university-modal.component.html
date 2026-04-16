@@ -1,0 +1,57 @@
+<div class="univ-modal__backdrop">
+    <div class="univ-modal__card">
+
+        <div class="univ-modal__header">
+            <div class="univ-modal__logo-icon">
+                <span class="material-symbols-outlined"
+                    style="font-variation-settings: 'FILL' 1; font-size: 32px; color: white;">school</span>
+            </div>
+            <h2 class="univ-modal__title font-headline">Scegli la tua università</h2>
+            <p class="univ-modal__desc">
+                Rendi la tua esperienza personalizzata: seleziona la tua università per iniziare a interagire con la
+                community!
+            </p>
+        </div>
+
+        <div class="univ-modal__search">
+            <span class="material-symbols-outlined univ-modal__search-icon">search</span>
+            <input type="text" class="input-field univ-modal__search-input" placeholder="Cerca università..."
+                [value]="searchQuery()" (input)="onSearchChange($any($event.target).value)">
+        </div>
+
+        <div class="univ-modal__list">
+            @if (loading()) {
+            <div class="univ-modal__loading">
+                <span class="material-symbols-outlined univ-modal__spin">sync</span>
+            </div>
+            } @else if (filteredUniversities().length === 0) {
+            <p class="univ-modal__empty">Nessuna università trovata</p>
+            } @else {
+            @for (univ of filteredUniversities(); track univ.id) {
+            <button class="univ-modal__item" [class.univ-modal__item--selected]="selectedUniversity()?.id === univ.id"
+                (click)="selectUniversity(univ)">
+                <div class="univ-modal__item-info">
+                    <span class="univ-modal__item-name">{{ univ.name }}</span>
+                    <span class="univ-modal__item-meta">{{ univ.city }}, {{ univ.country }}</span>
+                </div>
+                @if (selectedUniversity()?.id === univ.id) {
+                <span class="material-symbols-outlined univ-modal__item-check"
+                    style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                }
+            </button>
+            }
+            }
+        </div>
+
+        <div class="univ-modal__actions">
+            <button class="btn-primary univ-modal__btn-confirm" [disabled]="!selectedUniversity()"
+                [class.disabled-button]="!selectedUniversity()" (click)="onConfirm()">
+                Conferma università
+            </button>
+            <button class="btn-surface univ-modal__btn-skip" (click)="onSkip()">
+                Salta per ora
+            </button>
+        </div>
+
+    </div>
+</div>
